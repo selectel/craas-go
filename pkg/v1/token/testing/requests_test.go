@@ -2,8 +2,6 @@ package testing
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -171,17 +169,4 @@ func TestRefreshToken(t *testing.T) {
 	if !reflect.DeepEqual(expectedRefreshTokenResponse, actual) {
 		t.Fatalf("expected %#v, but got %#v", expectedRefreshTokenResponse, actual)
 	}
-}
-
-func TestDoc(t *testing.T) {
-	client := &v1.ServiceClient{}
-	ctx := context.Background()
-	createOpts := &token.CreateOpts{
-		TokenTTL: token.TTL1Year,
-	}
-	craasToken, _, err := token.Create(ctx, client, createOpts)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("CRaaS token: %+v", craasToken)
 }

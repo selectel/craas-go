@@ -18,6 +18,8 @@ const (
 	ResourceURLRepositories      = "repositories"
 	ResourceURLGarbageCollection = "garbage-collection"
 	ResourceURLSize              = "size"
+	ResourceURLImages            = "images"
+	ResourceURLTags              = "tags"
 )
 
 const (
