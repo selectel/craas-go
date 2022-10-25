@@ -12,10 +12,12 @@ import (
 )
 
 const (
-	ResourceURLToken        = "token"
-	ResourceURLRefresh      = "refresh"
-	ResourceURLRegistries   = "registries"
-	ResourceURLRepositories = "repositories"
+	ResourceURLToken             = "token"
+	ResourceURLRefresh           = "refresh"
+	ResourceURLRegistries        = "registries"
+	ResourceURLRepositories      = "repositories"
+	ResourceURLGarbageCollection = "garbage-collection"
+	ResourceURLSize              = "size"
 )
 
 const (

@@ -1,5 +1,5 @@
 /*
-Package `token` provides a set of functions for working with tokens.
+Package `token` provides a set of functions for working with with CRaaS tokens API.
 
 Example of creating a token:
 
