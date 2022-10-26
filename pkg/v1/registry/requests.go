@@ -18,12 +18,12 @@ var (
 
 // Create creates a new registry with the specified options.
 // Registry name is a required parameter.
-func Create(ctx context.Context, client *v1.ServiceClient, opts *CreateOpts) (*Registry, *v1.ResponseResult, error) {
-	if opts == nil || opts.Name == "" {
+func Create(ctx context.Context, client *v1.ServiceClient, name string) (*Registry, *v1.ResponseResult, error) {
+	if name == "" {
 		return nil, nil, ErrRegistryNameEmpty
 	}
 
-	requestBody, err := json.Marshal(opts)
+	requestBody, err := json.Marshal(name)
 	if err != nil {
 		return nil, nil, err
 	}

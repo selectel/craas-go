@@ -33,10 +33,7 @@ func TestCreate(t *testing.T) {
 		UserAgent:  testutils.UserAgent,
 	}
 
-	createOpts := &registry.CreateOpts{
-		Name: "test-registry",
-	}
-	actual, httpResponse, err := registry.Create(ctx, testClient, createOpts)
+	actual, httpResponse, err := registry.Create(ctx, testClient, "test-registry")
 	if err != nil {
 		t.Fatal(err)
 	}
