@@ -6,9 +6,9 @@ const testTokenID = `CRgAAAAAWiMnwN63eyASwQk8a3DBPRPirT9fWQTx`
 
 // testCreateTokenResponseRaw represents a raw token create response.
 const testCreateTokenResponseRaw = `{
-  "expireAt": 1666644533,
-  "expireIn": 43200,
-  "token": "CRgAAAAAWiMnwN63eyASwQk8a3DBPRPirT9fWQTx"
+    "expireAt": 1666644533,
+    "expireIn": 43200,
+    "token": "CRgAAAAAWiMnwN63eyASwQk8a3DBPRPirT9fWQTx"
 }`
 
 var expectedCreateTokenResponse = &token.Token{
@@ -18,8 +18,8 @@ var expectedCreateTokenResponse = &token.Token{
 }
 
 const testGetTokenResponseRaw = `{
-  "expireAt": 1666644533,
-  "expireIn": 43200
+    "expireAt": 1666644533,
+    "expireIn": 43200
 }`
 
 var expectedGetTokenResponse = &token.Token{

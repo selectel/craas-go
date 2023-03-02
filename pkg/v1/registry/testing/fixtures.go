@@ -9,13 +9,13 @@ import (
 const testRegistryID = "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c"
 
 const testCreateRegistryResponseRaw = `{
-  "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
-  "name": "test-registry",
-  "createdAt": "2022-10-25T10:25:22.556Z",
-  "status": "CREATING",
-  "size": 0,
-  "sizeLimit": 21474836480,
-  "used": 0
+    "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
+    "name": "test-registry",
+    "createdAt": "2022-10-25T10:25:22.556Z",
+    "status": "CREATING",
+    "size": 0,
+    "sizeLimit": 21474836480,
+    "used": 0
 }`
 
 var expectedCreateRegistryResponse = &registry.Registry{
@@ -29,13 +29,13 @@ var expectedCreateRegistryResponse = &registry.Registry{
 }
 
 const testGetRegistryResponseRaw = `{
-  "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
-  "name": "test-registry",
-  "createdAt": "2022-10-25T10:25:22.556Z",
-  "status": "ACTIVE",
-  "size": 500000000,
-  "sizeLimit": 21474836480,
-  "used": 2.33
+    "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
+    "name": "test-registry",
+    "createdAt": "2022-10-25T10:25:22.556Z",
+    "status": "ACTIVE",
+    "size": 500000000,
+    "sizeLimit": 21474836480,
+      "used": 2.33
 }`
 
 var expectedGetRegistryResponse = &registry.Registry{

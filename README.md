@@ -1,4 +1,5 @@
 # craas-go: Go SDK for Container Registry Service
+
 [![Go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/selectel/craas-go/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/selectel/craas-go)](https://goreportcard.com/report/github.com/selectel/craas-go)
 [![Build Status](https://travis-ci.com/selectel/craas-go.svg?branch=master)](https://travis-ci.com/selectel/craas-go)
@@ -13,6 +14,7 @@ The Go library documentation is available at [go.dev](https://pkg.go.dev/github.
 ## What this library is capable of
 
 You can use this library to work with the following objects of the Selectel Container Registry Service:
+
 * [token](https://pkg.go.dev/github.com/selectel/craas-go/pkg/v1/token)
 * [registry](https://pkg.go.dev/github.com/selectel/craas-go/pkg/v1/registry)
 * [repository](https://pkg.go.dev/github.com/selectel/craas-go/pkg/v1/repository)
@@ -37,14 +39,15 @@ To work with the Selectel Container Registry API you first need to:
 * Retrieve a token for your project via API or [go-selvpcclient](https://github.com/selectel/go-selvpcclient).
 
 ### Endpoints
+
 Selectel Container Registry Service currently has the following API endpoints:
 
-| URL                           | Region |
-|-------------------------------|--------|
-| https://cr.selcloud.ru/api/v1 | -      |
-
+| URL                           |
+|-------------------------------|
+| https://cr.selcloud.ru/api/v1 |
 
 ### Usage example
+
 ```go
 package main
 

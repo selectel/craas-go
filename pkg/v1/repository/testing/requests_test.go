@@ -41,7 +41,7 @@ func TestListRepositories(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Get method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -82,7 +82,7 @@ func TestGetRepository(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Get method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -122,7 +122,7 @@ func TestDeleteRepository(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Delete method")
 	}
 	if httpResponse.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -160,7 +160,7 @@ func TestListImages(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Get method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -201,7 +201,7 @@ func TestListTags(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Get method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -242,7 +242,7 @@ func TestListImageLayers(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Get method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",
@@ -282,7 +282,7 @@ func TestDeleteImageManifest(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+		t.Fatal("expected an HTTP response from the Delete method")
 	}
 	if httpResponse.StatusCode != http.StatusNoContent {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",

@@ -29,9 +29,9 @@ var expectedListRepositoriesResponse = []*repository.Repository{
 }
 
 const testGetRepositoryResponseRaw = `{
-  "name": "test-repository",
-  "updatedAt": "2022-10-25T14:21:29.321Z",
-  "size": 34634720
+    "name": "test-repository",
+    "updatedAt": "2022-10-25T14:21:29.321Z",
+    "size": 34634720
 }`
 
 var expectedGetRepositoryResponse = &repository.Repository{

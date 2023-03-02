@@ -160,7 +160,7 @@ func TestRefreshToken(t *testing.T) {
 		t.Fatal("endpoint wasn't called")
 	}
 	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Patch method")
+		t.Fatal("expected an HTTP response from the Post method")
 	}
 	if httpResponse.StatusCode != http.StatusOK {
 		t.Fatalf("expected %d status in the HTTP response, but got %d",

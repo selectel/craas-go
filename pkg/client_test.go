@@ -152,7 +152,7 @@ func TestDoErrNotFoundRequest(t *testing.T) {
 	testEnv.Mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprint(w, `{"error":{"id":"9fb12d6e-0da2-4db1-a076-414059cfb448","message":"Cluster not found"}}`)
+		fmt.Fprint(w, `{"error":{"id":"9fb12d6e-0da2-4db1-a076-414059cfb448","message":"Registry not found"}}`)
 
 		if r.Method != http.MethodGet {
 			t.Errorf("got %s method, want GET", r.Method)
@@ -179,8 +179,8 @@ func TestDoErrNotFoundRequest(t *testing.T) {
 		t.Fatalf("got %d response status, want 404", response.StatusCode)
 	}
 
-	if response.ErrNotFound.Error.Message != "Cluster not found" {
-		t.Fatalf("got %s error message, want 'Cluster not found'", response.ErrNotFound.Error.Message)
+	if response.ErrNotFound.Error.Message != "Registry not found" {
+		t.Fatalf("got %s error message, want 'Registry not found'", response.ErrNotFound.Error.Message)
 	}
 
 	if response.ErrNotFound.Error.ID != "9fb12d6e-0da2-4db1-a076-414059cfb448" {

@@ -125,7 +125,7 @@ func newHTTPTransport() *http.Transport {
 // Authentication and optional headers will be added automatically.
 func (client *ServiceClient) DoRequest(ctx context.Context, method, path string, body io.Reader) (*ResponseResult, error) {
 	// Prepare an HTTP request with the provided context.
-	request, err := http.NewRequest(method, path, body)
+	request, err := http.NewRequestWithContext(ctx, method, path, body)
 	if err != nil {
 		return nil, err
 	}
