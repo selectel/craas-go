@@ -17,18 +17,18 @@ func TestNewCRaaSClientV1(t *testing.T) {
 	tokenID := "fakeID"
 	endpoint := "http://example.org"
 	expected := &ServiceClient{
-		TokenID:   tokenID,
+		Token:     tokenID,
 		Endpoint:  endpoint,
 		UserAgent: userAgent,
 	}
 
 	actual := NewCRaaSClientV1(tokenID, endpoint)
 
-	if expected.TokenID != actual.TokenID {
+	if expected.Token != actual.Token {
 		t.Errorf("expected Endpoint %s, but got %s", expected.Endpoint, actual.Endpoint)
 	}
 	if expected.Endpoint != actual.Endpoint {
-		t.Errorf("expected TokenID %s, but got %s", expected.TokenID, actual.TokenID)
+		t.Errorf("expected Token %s, but got %s", expected.Token, actual.Token)
 	}
 	if expected.UserAgent != actual.UserAgent {
 		t.Errorf("expected UserAgent %s, but got %s", expected.UserAgent, actual.UserAgent)
@@ -42,7 +42,7 @@ func TestNewCRaaSClientV1WithCustomHTTP(t *testing.T) {
 	tokenID := testutils.TokenID
 	endpoint := "http://example.org"
 	expected := &ServiceClient{
-		TokenID:   tokenID,
+		Token:     tokenID,
 		Endpoint:  endpoint,
 		UserAgent: userAgent,
 	}
@@ -52,11 +52,11 @@ func TestNewCRaaSClientV1WithCustomHTTP(t *testing.T) {
 
 	actual := NewCRaaSClientV1WithCustomHTTP(customHTTPClient, tokenID, endpoint)
 
-	if expected.TokenID != actual.TokenID {
+	if expected.Token != actual.Token {
 		t.Errorf("expected Endpoint %s, but got %s", expected.Endpoint, actual.Endpoint)
 	}
 	if expected.Endpoint != actual.Endpoint {
-		t.Errorf("expected TokenID %s, but got %s", expected.TokenID, actual.TokenID)
+		t.Errorf("expected Token %s, but got %s", expected.Token, actual.Token)
 	}
 	if expected.UserAgent != actual.UserAgent {
 		t.Errorf("expected UserAgent %s, but got %s", expected.UserAgent, actual.UserAgent)
@@ -82,7 +82,7 @@ func TestDoGetRequest(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 
@@ -120,7 +120,7 @@ func TestDoPostRequest(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 
@@ -163,7 +163,7 @@ func TestDoErrNotFoundRequest(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 
@@ -205,7 +205,7 @@ func TestDoErrGenericRequest(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 
@@ -243,7 +243,7 @@ func TestDoErrNoContentRequest(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 
@@ -281,7 +281,7 @@ func TestDoErrRequestUnmarshalError(t *testing.T) {
 	client := &ServiceClient{
 		HTTPClient: &http.Client{},
 		Endpoint:   endpoint,
-		TokenID:    "token",
+		Token:      "token",
 		UserAgent:  "agent",
 	}
 

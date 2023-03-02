@@ -28,7 +28,7 @@ func TestListRepositories(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -69,7 +69,7 @@ func TestGetRepository(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -109,7 +109,7 @@ func TestDeleteRepository(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -147,7 +147,7 @@ func TestListImages(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -188,7 +188,7 @@ func TestListTags(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -229,7 +229,7 @@ func TestListImageLayers(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -269,7 +269,7 @@ func TestDeleteImageManifest(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}

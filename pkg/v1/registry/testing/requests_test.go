@@ -28,7 +28,7 @@ func TestCreate(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -69,7 +69,7 @@ func TestGet(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -110,7 +110,7 @@ func TestList(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -150,7 +150,7 @@ func TestDelete(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}

@@ -28,7 +28,7 @@ func TestCreateToken(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -69,7 +69,7 @@ func TestGetToken(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -109,7 +109,7 @@ func TestRevokeToken(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -147,7 +147,7 @@ func TestRefreshToken(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}

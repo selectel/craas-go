@@ -27,7 +27,7 @@ func TestStartGarbageCollection(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}
@@ -65,7 +65,7 @@ func TestGetGarbageSize(t *testing.T) {
 	ctx := context.Background()
 	testClient := &v1.ServiceClient{
 		HTTPClient: &http.Client{},
-		TokenID:    testutils.TokenID,
+		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
 		UserAgent:  testutils.UserAgent,
 	}

@@ -63,8 +63,8 @@ type ServiceClient struct {
 	// HTTPClient represents an initialized HTTP client that will be used to do requests.
 	HTTPClient *http.Client
 
-	// TokenID is a client authentication token.
-	TokenID string
+	// Token is a client authentication token.
+	Token string
 
 	// Endpoint represents an endpoint that will be used in all requests.
 	Endpoint string
@@ -74,10 +74,10 @@ type ServiceClient struct {
 }
 
 // NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-func NewCRaaSClientV1(tokenID, endpoint string) *ServiceClient {
+func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
 	return &ServiceClient{
 		HTTPClient: newHTTPClient(),
-		TokenID:    tokenID,
+		Token:      token,
 		Endpoint:   endpoint,
 		UserAgent:  userAgent,
 	}
@@ -92,7 +92,7 @@ func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endp
 
 	return &ServiceClient{
 		HTTPClient: customHTTPClient,
-		TokenID:    tokenID,
+		Token:      tokenID,
 		Endpoint:   endpoint,
 		UserAgent:  userAgent,
 	}
@@ -131,7 +131,7 @@ func (client *ServiceClient) DoRequest(ctx context.Context, method, path string,
 	}
 
 	request.Header.Set("User-Agent", client.UserAgent)
-	request.Header.Set("X-Auth-Token", client.TokenID)
+	request.Header.Set("X-Auth-Token", client.Token)
 	if body != nil {
 		request.Header.Set("Content-Type", "application/json")
 	}
