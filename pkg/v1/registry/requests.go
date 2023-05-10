@@ -23,7 +23,7 @@ func Create(ctx context.Context, client *v1.ServiceClient, name string) (*Regist
 		return nil, nil, ErrRegistryNameEmpty
 	}
 
-	requestBody, err := json.Marshal(name)
+	requestBody, err := json.Marshal(CreateOpts{Name: name})
 	if err != nil {
 		return nil, nil, err
 	}
