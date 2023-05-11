@@ -8,6 +8,10 @@ import (
 
 const testRegistryID = "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c"
 
+const testCreateRegistryRequestRaw = `{
+    "name": "test-registry"
+}`
+
 const testCreateRegistryResponseRaw = `{
     "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
     "name": "test-registry",

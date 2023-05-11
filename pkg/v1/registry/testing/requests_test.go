@@ -16,10 +16,11 @@ func TestCreate(t *testing.T) {
 	testEnv := testutils.SetupTestEnv()
 	defer testEnv.TearDownTestEnv()
 
-	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
+	testutils.HandleReqWithBody(t, &testutils.HandleReqOpts{
 		Mux:         testEnv.Mux,
 		URL:         "/api/v1/registries",
 		RawResponse: testCreateRegistryResponseRaw,
+		RawRequest:  testCreateRegistryRequestRaw,
 		Method:      http.MethodPost,
 		Status:      http.StatusCreated,
 		CallFlag:    &endpointCalled,
