@@ -1,4 +1,4 @@
-name: golangci-lint
+name: Golangci-lint
 on:
   push:
     branches:
@@ -6,14 +6,15 @@ on:
   pull_request:
 
 jobs:
-  golangci:
+  golangci-lint:
     name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
           go-version: '1.19'
 
