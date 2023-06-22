@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"time"
@@ -192,7 +191,7 @@ type ErrGeneric struct {
 
 // ExtractResult allows to provide an object into which ResponseResult body will be extracted.
 func (result *ResponseResult) ExtractResult(to interface{}) error {
-	body, err := ioutil.ReadAll(result.Body)
+	body, err := io.ReadAll(result.Body)
 	if err != nil {
 		return err
 	}
@@ -203,7 +202,7 @@ func (result *ResponseResult) ExtractResult(to interface{}) error {
 
 // ExtractRaw extracts ResponseResult body into the slice of bytes without unmarshalling.
 func (result *ResponseResult) ExtractRaw() ([]byte, error) {
-	bytes, err := ioutil.ReadAll(result.Body)
+	bytes, err := io.ReadAll(result.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +213,7 @@ func (result *ResponseResult) ExtractRaw() ([]byte, error) {
 
 // extractErr populates an error message and error structure in the ResponseResult body.
 func (result *ResponseResult) extractErr() error {
-	body, err := ioutil.ReadAll(result.Body)
+	body, err := io.ReadAll(result.Body)
 	if err != nil {
 		return err
 	}
