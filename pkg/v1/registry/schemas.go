@@ -1,6 +1,9 @@
 package registry
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Registry represents an unmarshalled registry from an API response.
 type Registry struct {
@@ -14,7 +17,7 @@ type Registry struct {
 	CreatedAt time.Time `json:"createdAt"`
 
 	// Status is a status of the registry.
-	Status string `json:"status"`
+	Status Status `json:"status"`
 
 	// Size is a registry storage usage in bytes.
 	Size int64 `json:"size"`
@@ -24,4 +27,56 @@ type Registry struct {
 
 	// Used is a registry storage percentage usage.
 	Used float32 `json:"used"`
+}
+
+// Status represents a custom type for various registry statuses.
+type Status string
+
+const (
+	StatusActive   Status = "ACTIVE"
+	StatusCreating Status = "CREATING"
+	StatusDeleting Status = "DELETING"
+	StatusGC       Status = "GARBAGE_COLLECTION"
+	StatusError    Status = "ERROR"
+	StatusUnknown  Status = "UNKNOWN"
+)
+
+func getSupportedStatuses() []Status {
+	return []Status{
+		StatusActive,
+		StatusCreating,
+		StatusDeleting,
+		StatusGC,
+		StatusError,
+	}
+}
+
+func isStatusSupported(s Status) bool {
+	for _, v := range getSupportedStatuses() {
+		if s == v {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (result *Registry) UnmarshalJSON(b []byte) error {
+	type tmp Registry
+	var s struct {
+		tmp
+	}
+
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+
+	*result = Registry(s.tmp)
+
+	// Check cluster status.
+	if !isStatusSupported(s.tmp.Status) {
+		result.Status = StatusUnknown
+	}
+
+	return nil
 }

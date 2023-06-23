@@ -94,6 +94,47 @@ func TestGet(t *testing.T) {
 	}
 }
 
+func TestGetWithUnknownStatus(t *testing.T) {
+	endpointCalled := false
+	testEnv := testutils.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         "/api/v1/registries/" + testRegistryID,
+		RawResponse: testGetRegistryWithUnknownStatusResponseRaw,
+		Method:      http.MethodGet,
+		Status:      http.StatusOK,
+		CallFlag:    &endpointCalled,
+	})
+
+	ctx := context.Background()
+	testClient := &v1.ServiceClient{
+		HTTPClient: &http.Client{},
+		Token:      testutils.TokenID,
+		Endpoint:   testEnv.Server.URL + "/api/v1",
+		UserAgent:  testutils.UserAgent,
+	}
+
+	actual, httpResponse, err := registry.Get(ctx, testClient, testRegistryID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !endpointCalled {
+		t.Fatal("endpoint wasn't called")
+	}
+	if httpResponse == nil {
+		t.Fatal("expected an HTTP response from the Get method")
+	}
+	if httpResponse.StatusCode != http.StatusOK {
+		t.Fatalf("expected %d status in the HTTP response, but got %d",
+			http.StatusOK, httpResponse.StatusCode)
+	}
+	if !reflect.DeepEqual(expectedGetRegistryWithUnknownStatusResponse, actual) {
+		t.Fatalf("expected %#v, but got %#v", expectedGetRegistryWithUnknownStatusResponse, actual)
+	}
+}
+
 func TestList(t *testing.T) {
 	endpointCalled := false
 	testEnv := testutils.SetupTestEnv()

@@ -52,6 +52,26 @@ var expectedGetRegistryResponse = &registry.Registry{
 	Used:      2.33,
 }
 
+const testGetRegistryWithUnknownStatusResponseRaw = `{
+    "id": "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
+    "name": "test-registry",
+    "createdAt": "2022-10-25T10:25:22.556Z",
+    "status": "UNEXPECTED",
+    "size": 500000000,
+    "sizeLimit": 21474836480,
+      "used": 2.33
+}`
+
+var expectedGetRegistryWithUnknownStatusResponse = &registry.Registry{
+	ID:        "9f3b5b5e-1b5a-4b5c-9b5a-5b5c1b5a4b5c",
+	Name:      "test-registry",
+	CreatedAt: time.Date(2022, 10, 25, 10, 25, 22, 556000000, time.UTC),
+	Status:    "UNKNOWN",
+	Size:      500000000,
+	SizeLimit: 21474836480,
+	Used:      2.33,
+}
+
 const testListRegistriesResponseRaw = `[
     {
         "createdAt": "2022-06-22T10:13:45.895721Z",
