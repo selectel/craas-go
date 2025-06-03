@@ -34,7 +34,7 @@ func TestCreateToken(t *testing.T) {
 		UserAgent:  testutils.UserAgent,
 	}
 
-	actual, response, err := tokenV2.Create(ctx, testClient, nil)
+	actual, response, err := tokenV2.Create(ctx, testClient, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

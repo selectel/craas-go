@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/selectel/craas-go/pkg/svc"
@@ -13,8 +15,13 @@ import (
 )
 
 // Create method token.
-func Create(ctx context.Context, client *svc.ServiceClient, tkn *TokenV2) (*TokenV2, *svc.ResponseResult, error) {
+func Create(ctx context.Context, client *svc.ServiceClient, tkn *TokenV2, dockerCfg *bool) (*TokenV2, *svc.ResponseResult, error) {
+	val := url.Values{}
 	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken}, "/")
+	if dockerCfg != nil {
+		val.Add("docker-config", strconv.FormatBool(*dockerCfg))
+		url = fmt.Sprintf("%s?%s", url, val.Encode())
+	}
 	reqBody, err := json.Marshal(tkn)
 	if err != nil {
 		return nil, nil, err
