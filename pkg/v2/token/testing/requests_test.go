@@ -2,13 +2,14 @@ package testing
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"reflect"
 	"testing"
 
 	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
-	"github.com/selectel/craas-go/pkg/v1/token"
+	tokenV2 "github.com/selectel/craas-go/pkg/v2/token"
 )
 
 func TestCreateToken(t *testing.T) {
@@ -18,7 +19,7 @@ func TestCreateToken(t *testing.T) {
 
 	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
 		Mux:         testEnv.Mux,
-		URL:         "/api/v1/token",
+		URL:         "/api/v2/tokens",
 		RawResponse: testCreateTokenResponseRaw,
 		Method:      http.MethodPost,
 		Status:      http.StatusOK,
@@ -29,38 +30,34 @@ func TestCreateToken(t *testing.T) {
 	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
+		Endpoint:   testEnv.Server.URL + "/api/v2",
 		UserAgent:  testutils.UserAgent,
 	}
 
-	actual, httpResponse, err := token.Create(ctx, testClient, nil)
+	actual, response, err := tokenV2.Create(ctx, testClient, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
+	if response == nil {
+		t.Fatal("expected an HTTP response from the POST method")
+	}
 	if !endpointCalled {
 		t.Fatal("endpoint wasn't called")
-	}
-	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
-	}
-	if httpResponse.StatusCode != http.StatusOK {
-		t.Fatalf("expected %d status in the HTTP response, but got %d",
-			http.StatusOK, httpResponse.StatusCode)
 	}
 	if !reflect.DeepEqual(expectedCreateTokenResponse, actual) {
 		t.Fatalf("expected %#v, but got %#v", expectedCreateTokenResponse, actual)
 	}
 }
 
-func TestGetToken(t *testing.T) {
+func TestGetListToken(t *testing.T) {
 	endpointCalled := false
 	testEnv := testutils.SetupTestEnv()
 	defer testEnv.TearDownTestEnv()
 
 	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
 		Mux:         testEnv.Mux,
-		URL:         "/api/v1/token/" + testTokenID,
-		RawResponse: testGetTokenResponseRaw,
+		URL:         "/api/v2/tokens",
+		RawResponse: testListTokensResponseRaw,
 		Method:      http.MethodGet,
 		Status:      http.StatusOK,
 		CallFlag:    &endpointCalled,
@@ -70,76 +67,75 @@ func TestGetToken(t *testing.T) {
 	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
+		Endpoint:   testEnv.Server.URL + "/api/v2",
 		UserAgent:  testutils.UserAgent,
 	}
 
-	actual, httpResponse, err := token.Get(ctx, testClient, testTokenID)
+	dig := new(int)
+	*dig = 1
+	opts := tokenV2.Opts{
+		Limit: dig,
+	}
+
+	actual, response, err := tokenV2.List(ctx, testClient, opts)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !endpointCalled {
 		t.Fatal("endpoint wasn't called")
 	}
-	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Get method")
+	if response == nil {
+		t.Fatal("expected an HTTP response from the GET method")
 	}
-	if httpResponse.StatusCode != http.StatusOK {
-		t.Fatalf("expected %d status in the HTTP response, but got %d",
-			http.StatusOK, httpResponse.StatusCode)
-	}
-	if !reflect.DeepEqual(expectedGetTokenResponse, actual) {
-		t.Fatalf("expected %#v, but got %#v", expectedGetTokenResponse, actual)
+	if !reflect.DeepEqual(expectedListTokenResponse, actual) {
+		t.Fatalf("expected %#v, but got %#v", expectedListTokenResponse, actual)
 	}
 }
 
-func TestRevokeToken(t *testing.T) {
-	endpointCalled := false
-	testEnv := testutils.SetupTestEnv()
-	defer testEnv.TearDownTestEnv()
-
-	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
-		Mux:      testEnv.Mux,
-		URL:      "/api/v1/token/" + testTokenID,
-		Method:   http.MethodDelete,
-		Status:   http.StatusNoContent,
-		CallFlag: &endpointCalled,
-	})
-
-	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
-
-	httpResponse, err := token.Revoke(ctx, testClient, testTokenID)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !endpointCalled {
-		t.Fatal("endpoint wasn't called")
-	}
-	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Delete method")
-	}
-	if httpResponse.StatusCode != http.StatusNoContent {
-		t.Fatalf("expected %d status in the HTTP response, but got %d",
-			http.StatusNoContent, httpResponse.StatusCode)
-	}
-}
-
-func TestRefreshToken(t *testing.T) {
+func TestDeleteToken(t *testing.T) {
 	endpointCalled := false
 	testEnv := testutils.SetupTestEnv()
 	defer testEnv.TearDownTestEnv()
 
 	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
 		Mux:         testEnv.Mux,
-		URL:         "/api/v1/token/" + testTokenID + "/refresh",
-		RawResponse: testRefreshTokenResponseRaw,
-		Method:      http.MethodPost,
+		URL:         fmt.Sprintf("/api/v2/tokens/%s", testTokenID),
+		RawResponse: testCreateTokenResponseRaw,
+		Method:      http.MethodDelete,
+		Status:      http.StatusNoContent,
+		CallFlag:    &endpointCalled,
+	})
+
+	ctx := context.Background()
+	testClient := &svc.ServiceClient{
+		HTTPClient: &http.Client{},
+		Token:      testutils.TokenID,
+		Endpoint:   testEnv.Server.URL + "/api/v2",
+		UserAgent:  testutils.UserAgent,
+	}
+
+	actual, err := tokenV2.Delete(ctx, testClient, testTokenID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !endpointCalled {
+		t.Fatal("endpoint wasn't called")
+	}
+	if actual.StatusCode != http.StatusNoContent {
+		t.Fatalf("expected %d status in the HTTP response, but got %d", http.StatusNoContent, actual.StatusCode)
+	}
+}
+
+func TestPatchToken(t *testing.T) {
+	endpointCalled := false
+	testEnv := testutils.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         fmt.Sprintf("/api/v2/tokens/%s", testTokenID),
+		RawResponse: testPatchTokenResponseRaw,
+		Method:      http.MethodPatch,
 		Status:      http.StatusOK,
 		CallFlag:    &endpointCalled,
 	})
@@ -148,25 +144,26 @@ func TestRefreshToken(t *testing.T) {
 	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
+		Endpoint:   testEnv.Server.URL + "/api/v2",
 		UserAgent:  testutils.UserAgent,
 	}
 
-	actual, httpResponse, err := token.Refresh(ctx, testClient, testTokenID)
+	scope := tokenV2.Scope{
+		ModeRW:        true,
+		RegistryIDs:   []string{"888af692-c646-4b76-a234-81ca9b5bcafe", "6303699d-c2cd-40b1-8428-9dcd6cc3d00d"},
+		AllRegistries: false,
+	}
+	actual, response, err := tokenV2.Patch(ctx, testClient, testTokenID, "token", scope)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !endpointCalled {
 		t.Fatal("endpoint wasn't called")
 	}
-	if httpResponse == nil {
-		t.Fatal("expected an HTTP response from the Post method")
+	if response.StatusCode != http.StatusOK {
+		t.Fatalf("expected %d status in the HTTP response, but got %d", http.StatusOK, response.StatusCode)
 	}
-	if httpResponse.StatusCode != http.StatusOK {
-		t.Fatalf("expected %d status in the HTTP response, but got %d",
-			http.StatusOK, httpResponse.StatusCode)
-	}
-	if !reflect.DeepEqual(expectedRefreshTokenResponse, actual) {
-		t.Fatalf("expected %#v, but got %#v", expectedRefreshTokenResponse, actual)
+	if !reflect.DeepEqual(expectedPatchTokenResponse, actual) {
+		t.Fatalf("expected %#v, but got %#v", expectedPatchTokenResponse, actual)
 	}
 }

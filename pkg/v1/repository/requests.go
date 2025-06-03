@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/v1/registry"
 )
 
@@ -16,7 +17,7 @@ var (
 )
 
 // ListRepositories returns a list of all repositories for the specified registry.
-func ListRepositories(ctx context.Context, client *v1.ServiceClient, registryID string) ([]*Repository, *v1.ResponseResult, error) {
+func ListRepositories(ctx context.Context, client *svc.ServiceClient, registryID string) ([]*Repository, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -43,7 +44,7 @@ func ListRepositories(ctx context.Context, client *v1.ServiceClient, registryID 
 }
 
 // GetRepository returns a single repository by its name.
-func GetRepository(ctx context.Context, client *v1.ServiceClient, registryID, repositoryName string) (*Repository, *v1.ResponseResult, error) {
+func GetRepository(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) (*Repository, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -73,7 +74,7 @@ func GetRepository(ctx context.Context, client *v1.ServiceClient, registryID, re
 }
 
 // DeleteRepository deletes a repository by its name.
-func DeleteRepository(ctx context.Context, client *v1.ServiceClient, registryID, repositoryName string) (*v1.ResponseResult, error) {
+func DeleteRepository(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, registry.ErrRegistryIDEmpty
 	}
@@ -96,7 +97,7 @@ func DeleteRepository(ctx context.Context, client *v1.ServiceClient, registryID,
 }
 
 // ListImages returns a list of all images for the specified repository.
-func ListImages(ctx context.Context, client *v1.ServiceClient, registryID, repositoryName string) ([]*Image, *v1.ResponseResult, error) {
+func ListImages(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) ([]*Image, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -126,7 +127,7 @@ func ListImages(ctx context.Context, client *v1.ServiceClient, registryID, repos
 }
 
 // ListTags returns a list of all tags for the specified repository.
-func ListTags(ctx context.Context, client *v1.ServiceClient, registryID, repositoryName string) ([]string, *v1.ResponseResult, error) {
+func ListTags(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) ([]string, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -159,9 +160,9 @@ func ListTags(ctx context.Context, client *v1.ServiceClient, registryID, reposit
 // `image` could be represented as a tag or a digest.
 func ListImageLayers(
 	ctx context.Context,
-	client *v1.ServiceClient,
+	client *svc.ServiceClient,
 	registryID, repository, image string,
-) ([]*Layer, *v1.ResponseResult, error) {
+) ([]*Layer, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -194,7 +195,7 @@ func ListImageLayers(
 }
 
 // DeleteImageManifest deletes an image manifest by its name.
-func DeleteImageManifest(ctx context.Context, client *v1.ServiceClient, registryID, repository, image string) (*v1.ResponseResult, error) {
+func DeleteImageManifest(ctx context.Context, client *svc.ServiceClient, registryID, repository, image string) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, registry.ErrRegistryIDEmpty
 	}

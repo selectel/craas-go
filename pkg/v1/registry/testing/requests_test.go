@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
 	"github.com/selectel/craas-go/pkg/v1/registry"
 )
@@ -27,7 +27,7 @@ func TestCreate(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -68,7 +68,7 @@ func TestGet(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -109,7 +109,7 @@ func TestGetWithUnknownStatus(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -150,7 +150,7 @@ func TestList(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -190,7 +190,7 @@ func TestDelete(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",

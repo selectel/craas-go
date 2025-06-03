@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 )
 
 var (
@@ -18,7 +19,7 @@ var (
 
 // Create creates a new registry with the specified options.
 // Registry name is a required parameter.
-func Create(ctx context.Context, client *v1.ServiceClient, name string) (*Registry, *v1.ResponseResult, error) {
+func Create(ctx context.Context, client *svc.ServiceClient, name string) (*Registry, *svc.ResponseResult, error) {
 	if name == "" {
 		return nil, nil, ErrRegistryNameEmpty
 	}
@@ -48,7 +49,7 @@ func Create(ctx context.Context, client *v1.ServiceClient, name string) (*Regist
 }
 
 // List returns a list of all registries.
-func List(ctx context.Context, client *v1.ServiceClient) ([]*Registry, *v1.ResponseResult, error) {
+func List(ctx context.Context, client *svc.ServiceClient) ([]*Registry, *svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint, v1.ResourceURLRegistries}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -71,7 +72,7 @@ func List(ctx context.Context, client *v1.ServiceClient) ([]*Registry, *v1.Respo
 
 // Get returns a single registry by its id.
 // Registry ID is a required parameter.
-func Get(ctx context.Context, client *v1.ServiceClient, registryID string) (*Registry, *v1.ResponseResult, error) {
+func Get(ctx context.Context, client *svc.ServiceClient, registryID string) (*Registry, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, ErrRegistryIDEmpty
 	}
@@ -97,7 +98,7 @@ func Get(ctx context.Context, client *v1.ServiceClient, registryID string) (*Reg
 
 // Delete deletes a registry by its id.
 // Registry ID is a required parameter.
-func Delete(ctx context.Context, client *v1.ServiceClient, registryID string) (*v1.ResponseResult, error) {
+func Delete(ctx context.Context, client *svc.ServiceClient, registryID string) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, ErrRegistryIDEmpty
 	}

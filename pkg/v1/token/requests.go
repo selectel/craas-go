@@ -7,11 +7,12 @@ import (
 	"strings"
 
 	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 )
 
 // Create request a creation of a new token.
 // The token is valid for 12 hours by default and could be set with CreateOpts.
-func Create(ctx context.Context, client *v1.ServiceClient, opts *CreateOpts) (*Token, *v1.ResponseResult, error) {
+func Create(ctx context.Context, client *svc.ServiceClient, opts *CreateOpts) (*Token, *svc.ResponseResult, error) {
 	if opts == nil {
 		opts = &CreateOpts{
 			TokenTTL: TTL12Hours,
@@ -52,7 +53,7 @@ func validateTokenTTL(ttl TTL) error {
 }
 
 // Get returns a single token by its ID.
-func Get(ctx context.Context, client *v1.ServiceClient, tokenID string) (*Token, *v1.ResponseResult, error) {
+func Get(ctx context.Context, client *svc.ServiceClient, tokenID string) (*Token, *svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint, v1.ResourceURLToken, tokenID}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -74,7 +75,7 @@ func Get(ctx context.Context, client *v1.ServiceClient, tokenID string) (*Token,
 }
 
 // Revoke revokes a token by its ID.
-func Revoke(ctx context.Context, client *v1.ServiceClient, tokenID string) (*v1.ResponseResult, error) {
+func Revoke(ctx context.Context, client *svc.ServiceClient, tokenID string) (*svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint, v1.ResourceURLToken, tokenID}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodDelete, url, nil)
 	if err != nil {
@@ -88,7 +89,7 @@ func Revoke(ctx context.Context, client *v1.ServiceClient, tokenID string) (*v1.
 }
 
 // Refresh refreshes a token by its ID.
-func Refresh(ctx context.Context, client *v1.ServiceClient, tokenID string) (*Token, *v1.ResponseResult, error) {
+func Refresh(ctx context.Context, client *svc.ServiceClient, tokenID string) (*Token, *svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint, v1.ResourceURLToken, tokenID, v1.ResourceURLRefresh}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodPost, url, nil)
 	if err != nil {

@@ -1,4 +1,4 @@
-package v1
+package v2
 
 import (
 	"log"
@@ -11,14 +11,10 @@ import (
 )
 
 const (
-	ResourceURLToken             = "token"
-	ResourceURLRefresh           = "refresh"
-	ResourceURLRegistries        = "registries"
-	ResourceURLRepositories      = "repositories"
-	ResourceURLGarbageCollection = "garbage-collection"
-	ResourceURLSize              = "size"
-	ResourceURLImages            = "images"
-	ResourceURLTags              = "tags"
+	ResourceURLToken      = "tokens"
+	ResourceURLRefresh    = "refresh"
+	ResourceURLRevoke     = "revoke"
+	ResourceURLRegenerate = "regenerate"
 )
 
 const (
@@ -26,7 +22,7 @@ const (
 	appName = "craas-go"
 
 	// appVersion is a version of the application.
-	appVersion = "0.1.0"
+	appVersion = "0.2.0"
 
 	// userAgent contains a basic user agent that will be used in queries.
 	userAgent = appName + "/" + appVersion
@@ -55,33 +51,15 @@ const (
 	defaultExpectContinueTimeout = 1
 )
 
-// NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-func NewCRaaSClientV1(token, endpoint string) *svc.ServiceClient {
-	if strings.Contains(endpoint, "v2") {
-		log.Fatalf("can't use client V1 with V2 endpoint")
+// NewCRaaSClientV2 initializes a new CRaaS client for the V2 API.
+func NewCRaaSClientV2(token, endpoint string) *svc.ServiceClient {
+	if strings.Contains(endpoint, "v1") {
+		log.Fatalf("can't use client V2 with V1 endpoint")
 	}
 
 	return &svc.ServiceClient{
 		HTTPClient: newHTTPClient(),
 		Token:      token,
-		Endpoint:   endpoint,
-		UserAgent:  userAgent,
-	}
-}
-
-// NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
-// If custom HTTP client is nil - default HTTP client will be used.
-func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *svc.ServiceClient {
-	if strings.Contains(endpoint, "v2") {
-		log.Fatalf("can't use client V1 with V2 endpoint")
-	}
-	if customHTTPClient == nil {
-		customHTTPClient = newHTTPClient()
-	}
-
-	return &svc.ServiceClient{
-		HTTPClient: customHTTPClient,
-		Token:      tokenID,
 		Endpoint:   endpoint,
 		UserAgent:  userAgent,
 	}

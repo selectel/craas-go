@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
 	"github.com/selectel/craas-go/pkg/v1/repository"
 )
@@ -26,7 +26,7 @@ func TestListRepositories(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -67,7 +67,7 @@ func TestGetRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -107,7 +107,7 @@ func TestDeleteRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -145,7 +145,7 @@ func TestListImages(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -186,7 +186,7 @@ func TestListTags(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -227,7 +227,7 @@ func TestListImageLayers(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",
@@ -267,7 +267,7 @@ func TestDeleteImageManifest(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
+	testClient := &svc.ServiceClient{
 		HTTPClient: &http.Client{},
 		Token:      testutils.TokenID,
 		Endpoint:   testEnv.Server.URL + "/api/v1",

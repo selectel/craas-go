@@ -7,13 +7,14 @@ import (
 	"strings"
 
 	v1 "github.com/selectel/craas-go/pkg"
+	"github.com/selectel/craas-go/pkg/svc"
 )
 
 var ErrRegistryIDEmpty = errors.New("registry id is empty")
 
 // StartGarbageCollection starts a garbage collection.
 // Registry ID is a required parameter.
-func StartGarbageCollection(ctx context.Context, client *v1.ServiceClient, registryID string, opts *StartGCOpts) (*v1.ResponseResult, error) {
+func StartGarbageCollection(ctx context.Context, client *svc.ServiceClient, registryID string, opts *StartGCOpts) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, ErrRegistryIDEmpty
 	}
@@ -38,7 +39,7 @@ func StartGarbageCollection(ctx context.Context, client *v1.ServiceClient, regis
 	return responseResult, nil
 }
 
-func GetGarbageSize(ctx context.Context, client *v1.ServiceClient, registryID string) (*GarbageSize, *v1.ResponseResult, error) {
+func GetGarbageSize(ctx context.Context, client *svc.ServiceClient, registryID string) (*GarbageSize, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, ErrRegistryIDEmpty
 	}
