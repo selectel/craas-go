@@ -12,12 +12,13 @@ import (
 
 	"github.com/selectel/craas-go/pkg/svc"
 	v2 "github.com/selectel/craas-go/pkg/v2"
+	clientv2 "github.com/selectel/craas-go/pkg/v2/client"
 )
 
 // Create method token.
-func Create(ctx context.Context, client *svc.ServiceClient, tkn *TokenV2, dockerCfg *bool) (*TokenV2, *svc.ResponseResult, error) {
+func Create(ctx context.Context, client *clientv2.ServiceClient, tkn *TokenV2, dockerCfg *bool) (*TokenV2, *svc.ResponseResult, error) {
 	val := url.Values{}
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken}, "/")
+	url := strings.Join([]string{client.GetEndpoint(), v2.ResourceURLToken}, "/")
 	if dockerCfg != nil {
 		val.Add("docker-config", strconv.FormatBool(*dockerCfg))
 		url = fmt.Sprintf("%s?%s", url, val.Encode())

@@ -1,22 +1,9 @@
-package v1
+package svc
 
 import (
 	"net"
 	"net/http"
 	"time"
-
-	"github.com/selectel/craas-go/pkg/svc"
-)
-
-const (
-	ResourceURLToken             = "token"
-	ResourceURLRefresh           = "refresh"
-	ResourceURLRegistries        = "registries"
-	ResourceURLRepositories      = "repositories"
-	ResourceURLGarbageCollection = "garbage-collection"
-	ResourceURLSize              = "size"
-	ResourceURLImages            = "images"
-	ResourceURLTags              = "tags"
 )
 
 const (
@@ -27,7 +14,7 @@ const (
 	appVersion = "0.1.0"
 
 	// userAgent contains a basic user agent that will be used in queries.
-	userAgent = appName + "/" + appVersion
+	UserAgent = appName + "/" + appVersion
 
 	// defaultHTTPTimeout represents the default timeout (in seconds) for HTTP requests.
 	defaultHTTPTimeout = 120
@@ -53,45 +40,16 @@ const (
 	defaultExpectContinueTimeout = 1
 )
 
-// NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-//
-// Deprecated: Use v1 or v2 client constructors instead.
-func NewCRaaSClientV1(token, endpoint string) *svc.ServiceClient {
-	return &svc.ServiceClient{
-		HTTPClient: newHTTPClient(),
-		Token:      token,
-		Endpoint:   endpoint,
-		UserAgent:  userAgent,
-	}
-}
-
-// NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
-// If custom HTTP client is nil - default HTTP client will be used.
-//
-// Deprecated: Use v1 or v2 client constructors instead.
-func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *svc.ServiceClient {
-	if customHTTPClient == nil {
-		customHTTPClient = newHTTPClient()
-	}
-
-	return &svc.ServiceClient{
-		HTTPClient: customHTTPClient,
-		Token:      tokenID,
-		Endpoint:   endpoint,
-		UserAgent:  userAgent,
-	}
-}
-
 // newHTTPClient returns a reference to an initialized and configured HTTP client.
-func newHTTPClient() *http.Client {
+func NewHTTPClient() *http.Client {
 	return &http.Client{
 		Timeout:   defaultHTTPTimeout * time.Second,
-		Transport: newHTTPTransport(),
+		Transport: NewHTTPTransport(),
 	}
 }
 
 // newHTTPTransport returns a reference to an initialized and configured HTTP transport.
-func newHTTPTransport() *http.Transport {
+func NewHTTPTransport() *http.Transport {
 	return &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
 		DialContext: (&net.Dialer{

@@ -9,7 +9,7 @@ import (
 )
 
 // ServiceClient stores details that are needed to work with Selectel CRaaS API.
-type ServiceClient struct {
+type Requests struct {
 	// HTTPClient represents an initialized HTTP client that will be used to do requests.
 	HTTPClient *http.Client
 
@@ -27,7 +27,7 @@ const errGotHTTPStatusCodeFmt = "craas-go: got the %d status code from the serve
 
 // DoRequest performs the HTTP request with the current ServiceClient's HTTPClient.
 // Authentication and optional headers will be added automatically.
-func (client *ServiceClient) DoRequest(ctx context.Context, method, path string, body io.Reader) (*ResponseResult, error) {
+func (client *Requests) DoRequest(ctx context.Context, method, path string, body io.Reader) (*ResponseResult, error) {
 	// Prepare an HTTP request with the provided context.
 	request, err := http.NewRequestWithContext(ctx, method, path, body)
 	if err != nil {
