@@ -1,4 +1,4 @@
-package client_test
+package client
 
 import (
 	"bytes"
@@ -11,17 +11,16 @@ import (
 
 	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
-	v2 "github.com/selectel/craas-go/pkg/v2"
 )
 
-const userAgent = "craas-go/0.2.0"
-
-func newFakeClient(token string, endpoint string) *svc.ServiceClient {
-	return &svc.ServiceClient{
-		Token:      token,
-		Endpoint:   endpoint,
-		UserAgent:  userAgent,
-		HTTPClient: &http.Client{},
+func newFakeClient(token string, endpoint string) *ServiceClient {
+	return &ServiceClient{
+		requests: &svc.Request{
+			Token:      token,
+			Endpoint:   endpoint,
+			UserAgent:  svc.UserAgent,
+			HTTPClient: &http.Client{},
+		},
 	}
 }
 
@@ -30,18 +29,21 @@ func TestNewCRaaSClientV2(t *testing.T) {
 	endpoint := "http://example.org"
 	expected := newFakeClient(tokenID, endpoint)
 
-	actual := v2.NewCRaaSClientV2(tokenID, endpoint)
+	actual, err := NewCRaaSClientV2(tokenID, endpoint)
+	if err != nil {
+		t.Errorf("got error %s", err)
+	}
 
-	if expected.Token != actual.Token {
-		t.Errorf("expected Endpoint %s, but got %s", expected.Endpoint, actual.Endpoint)
+	if expected.requests.Token != actual.Token() {
+		t.Errorf("expected Endpoint %s, but got %s", expected.requests.Endpoint, actual.Endpoint())
 	}
-	if expected.Endpoint != actual.Endpoint {
-		t.Errorf("expected Token %s, but got %s", expected.Token, actual.Token)
+	if expected.requests.Endpoint != actual.Endpoint() {
+		t.Errorf("expected Token %s, but got %s", expected.requests.Token, actual.Token())
 	}
-	if expected.UserAgent != actual.UserAgent {
-		t.Errorf("expected UserAgent %s, but got %s", expected.UserAgent, actual.UserAgent)
+	if expected.requests.UserAgent != actual.UserAgent() {
+		t.Errorf("expected UserAgent %s, but got %s", expected.requests.UserAgent, actual.UserAgent())
 	}
-	if actual.HTTPClient == nil {
+	if actual.requests.HTTPClient == nil {
 		t.Errorf("expected initialized HTTPClient but it's nil")
 	}
 }

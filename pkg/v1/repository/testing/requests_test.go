@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/repository"
 )
 
@@ -26,12 +26,7 @@ func TestListRepositories(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := repository.ListRepositories(ctx, testClient, testRegistryID)
 	if err != nil {
@@ -67,12 +62,7 @@ func TestGetRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := repository.GetRepository(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
@@ -107,12 +97,7 @@ func TestDeleteRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	httpResponse, err := repository.DeleteRepository(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
@@ -145,12 +130,7 @@ func TestListImages(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := repository.ListImages(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
@@ -186,12 +166,7 @@ func TestListTags(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := repository.ListTags(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
@@ -227,12 +202,7 @@ func TestListImageLayers(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := repository.ListImageLayers(ctx, testClient, testRegistryID, testRepositoryName, testImageDigest)
 	if err != nil {
@@ -267,12 +237,7 @@ func TestDeleteImageManifest(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	httpResponse, err := repository.DeleteImageManifest(ctx, testClient, testRegistryID, testRepositoryName, testImageDigest)
 	if err != nil {

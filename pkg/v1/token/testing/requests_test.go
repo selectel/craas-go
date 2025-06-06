@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/token"
 )
 
@@ -26,12 +26,7 @@ func TestCreateToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := token.Create(ctx, testClient, nil)
 	if err != nil {
@@ -67,12 +62,7 @@ func TestGetToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := token.Get(ctx, testClient, testTokenID)
 	if err != nil {
@@ -107,12 +97,7 @@ func TestRevokeToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	httpResponse, err := token.Revoke(ctx, testClient, testTokenID)
 	if err != nil {
@@ -145,12 +130,7 @@ func TestRefreshToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := token.Refresh(ctx, testClient, testTokenID)
 	if err != nil {

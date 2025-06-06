@@ -14,8 +14,8 @@ import (
 
 const userAgent = "agent"
 
-func newFakeClient(token string, endpoint string) *ServiceClient {
-	return &ServiceClient{
+func newFakeClient(token string, endpoint string) *Request {
+	return &Request{
 		Token:      token,
 		Endpoint:   endpoint,
 		UserAgent:  userAgent,

@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/selectel/craas-go/pkg/svc"
 	"github.com/selectel/craas-go/pkg/testutils"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/gc"
 )
 
@@ -25,12 +25,7 @@ func TestStartGarbageCollection(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	httpResponse, err := gc.StartGarbageCollection(ctx, testClient, testRegistryID, nil)
 	if err != nil {
@@ -63,12 +58,7 @@ func TestGetGarbageSize(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &svc.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
-	}
+	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
 
 	actual, httpResponse, err := gc.GetGarbageSize(ctx, testClient, testRegistryID)
 	if err != nil {

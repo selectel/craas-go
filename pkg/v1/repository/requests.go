@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/selectel/craas-go/pkg"
 	"github.com/selectel/craas-go/pkg/svc"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/registry"
 )
 
@@ -17,13 +18,13 @@ var (
 )
 
 // ListRepositories returns a list of all repositories for the specified registry.
-func ListRepositories(ctx context.Context, client *svc.ServiceClient, registryID string) ([]*Repository, *svc.ResponseResult, error) {
+func ListRepositories(ctx context.Context, client *client.ServiceClient, registryID string) ([]*Repository, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -44,7 +45,7 @@ func ListRepositories(ctx context.Context, client *svc.ServiceClient, registryID
 }
 
 // GetRepository returns a single repository by its name.
-func GetRepository(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) (*Repository, *svc.ResponseResult, error) {
+func GetRepository(ctx context.Context, client *client.ServiceClient, registryID, repositoryName string) (*Repository, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -53,7 +54,7 @@ func GetRepository(ctx context.Context, client *svc.ServiceClient, registryID, r
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -74,7 +75,7 @@ func GetRepository(ctx context.Context, client *svc.ServiceClient, registryID, r
 }
 
 // DeleteRepository deletes a repository by its name.
-func DeleteRepository(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) (*svc.ResponseResult, error) {
+func DeleteRepository(ctx context.Context, client *client.ServiceClient, registryID, repositoryName string) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, registry.ErrRegistryIDEmpty
 	}
@@ -83,7 +84,7 @@ func DeleteRepository(ctx context.Context, client *svc.ServiceClient, registryID
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodDelete, url, nil)
 	if err != nil {
@@ -97,7 +98,7 @@ func DeleteRepository(ctx context.Context, client *svc.ServiceClient, registryID
 }
 
 // ListImages returns a list of all images for the specified repository.
-func ListImages(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) ([]*Image, *svc.ResponseResult, error) {
+func ListImages(ctx context.Context, client *client.ServiceClient, registryID, repositoryName string) ([]*Image, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -106,7 +107,7 @@ func ListImages(ctx context.Context, client *svc.ServiceClient, registryID, repo
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName, v1.ResourceURLImages,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName, v1.ResourceURLImages,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -127,7 +128,7 @@ func ListImages(ctx context.Context, client *svc.ServiceClient, registryID, repo
 }
 
 // ListTags returns a list of all tags for the specified repository.
-func ListTags(ctx context.Context, client *svc.ServiceClient, registryID, repositoryName string) ([]string, *svc.ResponseResult, error) {
+func ListTags(ctx context.Context, client *client.ServiceClient, registryID, repositoryName string) ([]string, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, registry.ErrRegistryIDEmpty
 	}
@@ -136,7 +137,7 @@ func ListTags(ctx context.Context, client *svc.ServiceClient, registryID, reposi
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName, v1.ResourceURLTags,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repositoryName, v1.ResourceURLTags,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -160,7 +161,7 @@ func ListTags(ctx context.Context, client *svc.ServiceClient, registryID, reposi
 // `image` could be represented as a tag or a digest.
 func ListImageLayers(
 	ctx context.Context,
-	client *svc.ServiceClient,
+	client *client.ServiceClient,
 	registryID, repository, image string,
 ) ([]*Layer, *svc.ResponseResult, error) {
 	if registryID == "" {
@@ -174,7 +175,7 @@ func ListImageLayers(
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repository, image,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repository, image,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -195,7 +196,7 @@ func ListImageLayers(
 }
 
 // DeleteImageManifest deletes an image manifest by its name.
-func DeleteImageManifest(ctx context.Context, client *svc.ServiceClient, registryID, repository, image string) (*svc.ResponseResult, error) {
+func DeleteImageManifest(ctx context.Context, client *client.ServiceClient, registryID, repository, image string) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, registry.ErrRegistryIDEmpty
 	}
@@ -207,7 +208,7 @@ func DeleteImageManifest(ctx context.Context, client *svc.ServiceClient, registr
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repository, image,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLRepositories, repository, image,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodDelete, url, nil)
 	if err != nil {

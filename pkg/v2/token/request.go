@@ -12,12 +12,13 @@ import (
 
 	"github.com/selectel/craas-go/pkg/svc"
 	v2 "github.com/selectel/craas-go/pkg/v2"
+	"github.com/selectel/craas-go/pkg/v2/client"
 )
 
 // Create method token.
-func Create(ctx context.Context, client *svc.ServiceClient, tkn *TokenV2, dockerCfg *bool) (*TokenV2, *svc.ResponseResult, error) {
+func Create(ctx context.Context, client *client.ServiceClient, tkn *TokenV2, dockerCfg *bool) (*TokenV2, *svc.ResponseResult, error) {
 	val := url.Values{}
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken}, "/")
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken}, "/")
 	if dockerCfg != nil {
 		val.Add("docker-config", strconv.FormatBool(*dockerCfg))
 		url = fmt.Sprintf("%s?%s", url, val.Encode())
@@ -42,8 +43,8 @@ func Create(ctx context.Context, client *svc.ServiceClient, tkn *TokenV2, docker
 }
 
 // List returns a list tokens.
-func List(ctx context.Context, client *svc.ServiceClient, opts Opts) (*TokensV2, *svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken}, "/")
+func List(ctx context.Context, client *client.ServiceClient, opts Opts) (*TokensV2, *svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken}, "/")
 	urlWithQuery := fmt.Sprintf("%s?%s", url, makeQueryString(opts))
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, urlWithQuery, nil)
 	if err != nil {
@@ -64,8 +65,8 @@ func List(ctx context.Context, client *svc.ServiceClient, opts Opts) (*TokensV2,
 }
 
 // Get returns a token by ID.
-func GetByID(ctx context.Context, client *svc.ServiceClient, tokenID string) (*TokenV2, *svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID}, "/")
+func GetByID(ctx context.Context, client *client.ServiceClient, tokenID string) (*TokenV2, *svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, nil, err
@@ -86,8 +87,8 @@ func GetByID(ctx context.Context, client *svc.ServiceClient, tokenID string) (*T
 }
 
 // Revoke revokes a token by its ID.
-func Revoke(ctx context.Context, client *svc.ServiceClient, tokenID string) (*svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID, v2.ResourceURLRevoke}, "/")
+func Revoke(ctx context.Context, client *client.ServiceClient, tokenID string) (*svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID, v2.ResourceURLRevoke}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodPost, url, nil)
 	if err != nil {
 		return nil, err
@@ -100,8 +101,8 @@ func Revoke(ctx context.Context, client *svc.ServiceClient, tokenID string) (*sv
 }
 
 // Refresh refresh a token by its ID.
-func Refresh(ctx context.Context, client *svc.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID, v2.ResourceURLRefresh}, "/")
+func Refresh(ctx context.Context, client *client.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID, v2.ResourceURLRefresh}, "/")
 	reqBody, err := json.Marshal(exp)
 	if err != nil {
 		return nil, nil, err
@@ -124,8 +125,8 @@ func Refresh(ctx context.Context, client *svc.ServiceClient, tokenID string, exp
 }
 
 // Regenerate regenerate a token by its ID.
-func Regenerate(ctx context.Context, client *svc.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID, v2.ResourceURLRegenerate}, "/")
+func Regenerate(ctx context.Context, client *client.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID, v2.ResourceURLRegenerate}, "/")
 	reqBody, err := json.Marshal(exp)
 	if err != nil {
 		return nil, nil, err
@@ -148,8 +149,8 @@ func Regenerate(ctx context.Context, client *svc.ServiceClient, tokenID string, 
 }
 
 // Delete delete a token by its ID.
-func Delete(ctx context.Context, client *svc.ServiceClient, tokenID string) (*svc.ResponseResult, error) {
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID}, "/")
+func Delete(ctx context.Context, client *client.ServiceClient, tokenID string) (*svc.ResponseResult, error) {
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodDelete, url, nil)
 	if err != nil {
 		return nil, err
@@ -162,7 +163,7 @@ func Delete(ctx context.Context, client *svc.ServiceClient, tokenID string) (*sv
 }
 
 // Patch patch a token by its ID.
-func Patch(ctx context.Context, client *svc.ServiceClient, tokenID string, name string, sc Scope) (*TokenV2, *svc.ResponseResult, error) {
+func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, name string, sc Scope) (*TokenV2, *svc.ResponseResult, error) {
 	var token TokenV2
 	if name != "" {
 		token.Name = name
@@ -172,7 +173,7 @@ func Patch(ctx context.Context, client *svc.ServiceClient, tokenID string, name 
 	if err != nil {
 		return nil, nil, err
 	}
-	url := strings.Join([]string{client.Endpoint, v2.ResourceURLToken, tokenID}, "/")
+	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodPatch, url, bytes.NewReader(reqBody))
 	if err != nil {
 		return nil, nil, err

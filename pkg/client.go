@@ -1,10 +1,8 @@
 package v1
 
 import (
-	"log"
 	"net"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/selectel/craas-go/pkg/svc"
@@ -56,12 +54,10 @@ const (
 )
 
 // NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-func NewCRaaSClientV1(token, endpoint string) *svc.ServiceClient {
-	if strings.Contains(endpoint, "v2") {
-		log.Fatalf("can't use client V1 with V2 endpoint")
-	}
-
-	return &svc.ServiceClient{
+//
+// Deprecated: Use v1 or v2 client constructors instead.
+func NewCRaaSClientV1(token, endpoint string) *svc.Request {
+	return &svc.Request{
 		HTTPClient: newHTTPClient(),
 		Token:      token,
 		Endpoint:   endpoint,
@@ -71,15 +67,14 @@ func NewCRaaSClientV1(token, endpoint string) *svc.ServiceClient {
 
 // NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
 // If custom HTTP client is nil - default HTTP client will be used.
-func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *svc.ServiceClient {
-	if strings.Contains(endpoint, "v2") {
-		log.Fatalf("can't use client V1 with V2 endpoint")
-	}
+//
+// Deprecated: Use v1 or v2 client constructors instead.
+func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *svc.Request {
 	if customHTTPClient == nil {
 		customHTTPClient = newHTTPClient()
 	}
 
-	return &svc.ServiceClient{
+	return &svc.Request{
 		HTTPClient: customHTTPClient,
 		Token:      tokenID,
 		Endpoint:   endpoint,

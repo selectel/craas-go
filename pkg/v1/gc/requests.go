@@ -8,13 +8,14 @@ import (
 
 	v1 "github.com/selectel/craas-go/pkg"
 	"github.com/selectel/craas-go/pkg/svc"
+	"github.com/selectel/craas-go/pkg/v1/client"
 )
 
 var ErrRegistryIDEmpty = errors.New("registry id is empty")
 
 // StartGarbageCollection starts a garbage collection.
 // Registry ID is a required parameter.
-func StartGarbageCollection(ctx context.Context, client *svc.ServiceClient, registryID string, opts *StartGCOpts) (*svc.ResponseResult, error) {
+func StartGarbageCollection(ctx context.Context, client *client.ServiceClient, registryID string, opts *StartGCOpts) (*svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, ErrRegistryIDEmpty
 	}
@@ -23,7 +24,7 @@ func StartGarbageCollection(ctx context.Context, client *svc.ServiceClient, regi
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLGarbageCollection,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLGarbageCollection,
 	}, "/")
 	if opts.DeleteUntagged {
 		url += "?delete-untagged=true"
@@ -39,13 +40,13 @@ func StartGarbageCollection(ctx context.Context, client *svc.ServiceClient, regi
 	return responseResult, nil
 }
 
-func GetGarbageSize(ctx context.Context, client *svc.ServiceClient, registryID string) (*GarbageSize, *svc.ResponseResult, error) {
+func GetGarbageSize(ctx context.Context, client *client.ServiceClient, registryID string) (*GarbageSize, *svc.ResponseResult, error) {
 	if registryID == "" {
 		return nil, nil, ErrRegistryIDEmpty
 	}
 
 	url := strings.Join([]string{
-		client.Endpoint, v1.ResourceURLRegistries, registryID, v1.ResourceURLGarbageCollection, v1.ResourceURLSize,
+		client.Endpoint(), v1.ResourceURLRegistries, registryID, v1.ResourceURLGarbageCollection, v1.ResourceURLSize,
 	}, "/")
 	responseResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
 	if err != nil {
