@@ -52,6 +52,50 @@ func TestListRepositories(t *testing.T) {
 	}
 }
 
+func TestListRepositoriesEmpty(t *testing.T) {
+	endpointCalled := false
+	testEnv := testutils.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testutils.HandleReqWithoutBody(t, &testutils.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         "/api/v1/registries/" + testRegistryID + "/repositories",
+		RawResponse: "",
+		Method:      http.MethodGet,
+		Status:      http.StatusNoContent,
+		CallFlag:    &endpointCalled,
+	})
+
+	ctx := context.Background()
+	testClient := &v1.ServiceClient{
+		HTTPClient: &http.Client{},
+		Token:      testutils.TokenID,
+		Endpoint:   testEnv.Server.URL + "/api/v1",
+		UserAgent:  testutils.UserAgent,
+	}
+
+	actual, httpResponse, err := repository.ListRepositories(ctx, testClient, testRegistryID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !endpointCalled {
+		t.Fatal("endpoint wasn't called")
+	}
+	if httpResponse == nil {
+		t.Fatal("expected an HTTP response from the Get method")
+	}
+	if httpResponse.StatusCode != http.StatusNoContent {
+		t.Fatalf("expected %d status in the HTTP response, but got %d",
+			http.StatusOK, httpResponse.StatusCode)
+	}
+	if actual == nil {
+		t.Fatal("expected an empty list of registries, but got nil")
+	}
+	if len(actual) != 0 {
+		t.Fatalf("expected an empty list of registries, but got %d items", len(actual))
+	}
+}
+
 func TestGetRepository(t *testing.T) {
 	endpointCalled := false
 	testEnv := testutils.SetupTestEnv()
