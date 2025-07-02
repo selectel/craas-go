@@ -1,32 +1,15 @@
-package v1
+package svc
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
-	"net"
 	"net/http"
-	"time"
-
-	"github.com/selectel/craas-go/pkg/svc"
 )
 
-const (
-	ResourceURLToken             = "token"
-	ResourceURLRefresh           = "refresh"
-	ResourceURLRegistries        = "registries"
-	ResourceURLRepositories      = "repositories"
-	ResourceURLGarbageCollection = "garbage-collection"
-	ResourceURLSize              = "size"
-	ResourceURLImages            = "images"
-	ResourceURLTags              = "tags"
-)
-
-const errGotHTTPStatusCodeFmt = "craas-go: got the %d status code from the server"
-
-// ServiceClient stores details that are needed to work with Selectel CRaaS API.
-type ServiceClient struct {
+// Request stores details that are needed to work with Selectel CRaaS API.
+type Request struct {
 	// HTTPClient represents an initialized HTTP client that will be used to do requests.
 	HTTPClient *http.Client
 
@@ -40,61 +23,9 @@ type ServiceClient struct {
 	UserAgent string
 }
 
-// NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-//
-// Deprecated: Use v1 or v2 client constructors instead.
-func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
-	return &ServiceClient{
-		HTTPClient: newHTTPClient(),
-		Token:      token,
-		Endpoint:   endpoint,
-		UserAgent:  svc.UserAgent,
-	}
-}
-
-// NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
-// If custom HTTP client is nil - default HTTP client will be used.
-//
-// Deprecated: Use v1 or v2 client constructors instead.
-func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *ServiceClient {
-	if customHTTPClient == nil {
-		customHTTPClient = newHTTPClient()
-	}
-
-	return &ServiceClient{
-		HTTPClient: customHTTPClient,
-		Token:      tokenID,
-		Endpoint:   endpoint,
-		UserAgent:  svc.UserAgent,
-	}
-}
-
-// newHTTPClient returns a reference to an initialized and configured HTTP client.
-func newHTTPClient() *http.Client {
-	return &http.Client{
-		Timeout:   svc.DefaultHTTPTimeout * time.Second,
-		Transport: newHTTPTransport(),
-	}
-}
-
-// newHTTPTransport returns a reference to an initialized and configured HTTP transport.
-func newHTTPTransport() *http.Transport {
-	return &http.Transport{
-		Proxy: http.ProxyFromEnvironment,
-		DialContext: (&net.Dialer{
-			Timeout:   svc.DefaultDialTimeout * time.Second,
-			KeepAlive: svc.DefaultKeepaliveTimeout * time.Second,
-		}).DialContext,
-		MaxIdleConns:          svc.DefaultMaxIdleConns,
-		IdleConnTimeout:       svc.DefaultIdleConnTimeout * time.Second,
-		TLSHandshakeTimeout:   svc.DefaultTLSHandshakeTimeout * time.Second,
-		ExpectContinueTimeout: svc.DefaultExpectContinueTimeout * time.Second,
-	}
-}
-
-// DoRequest performs the HTTP request with the current ServiceClient's HTTPClient.
+// DoRequest performs the HTTP request with the current Request's HTTPClient.
 // Authentication and optional headers will be added automatically.
-func (client *ServiceClient) DoRequest(ctx context.Context, method, path string, body io.Reader) (*ResponseResult, error) {
+func (client *Request) DoRequest(ctx context.Context, method, path string, body io.Reader) (*ResponseResult, error) {
 	// Prepare an HTTP request with the provided context.
 	request, err := http.NewRequestWithContext(ctx, method, path, body)
 	if err != nil {
@@ -162,7 +93,7 @@ type ErrGeneric struct {
 }
 
 // ExtractResult allows to provide an object into which ResponseResult body will be extracted.
-func (result *ResponseResult) ExtractResult(to interface{}) error {
+func (result *ResponseResult) ExtractResult(to any) error {
 	body, err := io.ReadAll(result.Body)
 	if err != nil {
 		return err
