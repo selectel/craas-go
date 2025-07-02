@@ -12,9 +12,12 @@ import (
 	"github.com/selectel/craas-go/pkg/testutils"
 )
 
-const userAgent = "agent"
+const (
+	userAgent = "agent"
+	token     = "token"
+)
 
-func newFakeClient(token string, endpoint string) *Request {
+func newFakeClient(endpoint string) *Request {
 	return &Request{
 		Token:      token,
 		Endpoint:   endpoint,
@@ -36,7 +39,7 @@ func TestDoGetRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -69,7 +72,7 @@ func TestDoPostRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	requestBody, err := json.Marshal(&struct {
 		ID string `json:"id"`
@@ -107,7 +110,7 @@ func TestDoErrNotFoundRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -144,7 +147,7 @@ func TestDoErrGenericRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -177,7 +180,7 @@ func TestDoErrNoContentRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -210,7 +213,7 @@ func TestDoErrRequestUnmarshalError(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := newFakeClient("token", endpoint)
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)

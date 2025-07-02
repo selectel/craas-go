@@ -3,7 +3,10 @@ package client
 import (
 	"context"
 	"io"
+	"net"
+	"net/http"
 	"strings"
+	"time"
 
 	"github.com/selectel/craas-go/pkg/svc"
 )
@@ -42,4 +45,50 @@ func (s *ServiceClient) Endpoint() string {
 
 func (s *ServiceClient) UserAgent() string {
 	return s.requests.UserAgent
+}
+
+// NewCRaaSClientV2WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
+// If custom HTTP client is nil - default HTTP client will be used.
+//
+// vDeprecated: Use just v2.NewCRaaSClientV2 client constructors instead.
+func NewCRaaSClientV2WithCustomHTTP(customHTTPClient *http.Client, token, endpoint string) (*ServiceClient, error) {
+	if customHTTPClient == nil {
+		customHTTPClient = newHTTPClient()
+	}
+
+	if strings.HasSuffix(endpoint, "v1") {
+		return nil, svc.ErrEndpointVersionMismatch
+	}
+
+	return &ServiceClient{
+		requests: &svc.Request{
+			HTTPClient: customHTTPClient,
+			Token:      token,
+			Endpoint:   endpoint,
+			UserAgent:  svc.UserAgent,
+		},
+	}, nil
+}
+
+// newHTTPClient returns a reference to an initialized and configured HTTP client.
+func newHTTPClient() *http.Client {
+	return &http.Client{
+		Timeout:   svc.DefaultHTTPTimeout * time.Second,
+		Transport: newHTTPTransport(),
+	}
+}
+
+// newHTTPTransport returns a reference to an initialized and configured HTTP transport.
+func newHTTPTransport() *http.Transport {
+	return &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   svc.DefaultDialTimeout * time.Second,
+			KeepAlive: svc.DefaultKeepaliveTimeout * time.Second,
+		}).DialContext,
+		MaxIdleConns:          svc.DefaultMaxIdleConns,
+		IdleConnTimeout:       svc.DefaultIdleConnTimeout * time.Second,
+		TLSHandshakeTimeout:   svc.DefaultTLSHandshakeTimeout * time.Second,
+		ExpectContinueTimeout: svc.DefaultExpectContinueTimeout * time.Second,
+	}
 }

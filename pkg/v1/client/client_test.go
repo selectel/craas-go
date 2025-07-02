@@ -6,8 +6,6 @@ import (
 	"github.com/selectel/craas-go/pkg/svc"
 )
 
-const userAgent = "craas-go/0.1.0"
-
 func TestNewCRaaSClientV1(t *testing.T) {
 	tokenID := "fakeID"
 	endpoint := "http://example.org"

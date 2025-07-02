@@ -17,33 +17,33 @@ const (
 	UserAgent = appName + "/" + appVersion
 
 	// defaultHTTPTimeout represents the default timeout (in seconds) for HTTP requests.
-	defaultHTTPTimeout = 120
+	DefaultHTTPTimeout = 120
 
 	// defaultDialTimeout represents the default timeout (in seconds) for HTTP connection establishments.
-	defaultDialTimeout = 60
+	DefaultDialTimeout = 60
 
 	// defaultKeepaliveTimeout represents the default keep-alive period for an active network connection.
-	defaultKeepaliveTimeout = 60
+	DefaultKeepaliveTimeout = 60
 
 	// defaultMaxIdleConns represents the maximum number of idle (keep-alive) connections.
-	defaultMaxIdleConns = 100
+	DefaultMaxIdleConns = 100
 
 	// defaultIdleConnTimeout represents the maximum amount of time an idle (keep-alive) connection will remain
 	// idle before closing itself.
-	defaultIdleConnTimeout = 100
+	DefaultIdleConnTimeout = 100
 
 	// defaultTLSHandshakeTimeout represents the default timeout (in seconds) for TLS handshake.
-	defaultTLSHandshakeTimeout = 60
+	DefaultTLSHandshakeTimeout = 60
 
 	// defaultExpectContinueTimeout represents the default amount of time to wait for a server's first
 	// response headers.
-	defaultExpectContinueTimeout = 1
+	DefaultExpectContinueTimeout = 1
 )
 
 // newHTTPClient returns a reference to an initialized and configured HTTP client.
 func NewHTTPClient() *http.Client {
 	return &http.Client{
-		Timeout:   defaultHTTPTimeout * time.Second,
+		Timeout:   DefaultHTTPTimeout * time.Second,
 		Transport: NewHTTPTransport(),
 	}
 }
@@ -53,12 +53,12 @@ func NewHTTPTransport() *http.Transport {
 	return &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
 		DialContext: (&net.Dialer{
-			Timeout:   defaultDialTimeout * time.Second,
-			KeepAlive: defaultKeepaliveTimeout * time.Second,
+			Timeout:   DefaultDialTimeout * time.Second,
+			KeepAlive: DefaultKeepaliveTimeout * time.Second,
 		}).DialContext,
-		MaxIdleConns:          defaultMaxIdleConns,
-		IdleConnTimeout:       defaultIdleConnTimeout * time.Second,
-		TLSHandshakeTimeout:   defaultTLSHandshakeTimeout * time.Second,
-		ExpectContinueTimeout: defaultExpectContinueTimeout * time.Second,
+		MaxIdleConns:          DefaultMaxIdleConns,
+		IdleConnTimeout:       DefaultIdleConnTimeout * time.Second,
+		TLSHandshakeTimeout:   DefaultTLSHandshakeTimeout * time.Second,
+		ExpectContinueTimeout: DefaultExpectContinueTimeout * time.Second,
 	}
 }
