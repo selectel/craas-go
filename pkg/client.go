@@ -8,6 +8,8 @@ import (
 	"net"
 	"net/http"
 	"time"
+
+	"github.com/selectel/craas-go/pkg/svc"
 )
 
 const (
@@ -19,40 +21,6 @@ const (
 	ResourceURLSize              = "size"
 	ResourceURLImages            = "images"
 	ResourceURLTags              = "tags"
-)
-
-const (
-	// appName represents an application name.
-	appName = "craas-go"
-
-	// appVersion is a version of the application.
-	appVersion = "0.1.0"
-
-	// userAgent contains a basic user agent that will be used in queries.
-	userAgent = appName + "/" + appVersion
-
-	// defaultHTTPTimeout represents the default timeout (in seconds) for HTTP requests.
-	defaultHTTPTimeout = 120
-
-	// defaultDialTimeout represents the default timeout (in seconds) for HTTP connection establishments.
-	defaultDialTimeout = 60
-
-	// defaultKeepaliveTimeout represents the default keep-alive period for an active network connection.
-	defaultKeepaliveTimeout = 60
-
-	// defaultMaxIdleConns represents the maximum number of idle (keep-alive) connections.
-	defaultMaxIdleConns = 100
-
-	// defaultIdleConnTimeout represents the maximum amount of time an idle (keep-alive) connection will remain
-	// idle before closing itself.
-	defaultIdleConnTimeout = 100
-
-	// defaultTLSHandshakeTimeout represents the default timeout (in seconds) for TLS handshake.
-	defaultTLSHandshakeTimeout = 60
-
-	// defaultExpectContinueTimeout represents the default amount of time to wait for a server's first
-	// response headers.
-	defaultExpectContinueTimeout = 1
 )
 
 const errGotHTTPStatusCodeFmt = "craas-go: got the %d status code from the server"
@@ -73,17 +41,21 @@ type ServiceClient struct {
 }
 
 // NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
+//
+// Deprecated: Use v1 or v2 client constructors instead.
 func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
 	return &ServiceClient{
 		HTTPClient: newHTTPClient(),
 		Token:      token,
 		Endpoint:   endpoint,
-		UserAgent:  userAgent,
+		UserAgent:  svc.UserAgent,
 	}
 }
 
 // NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
 // If custom HTTP client is nil - default HTTP client will be used.
+//
+// Deprecated: Use v1 or v2 client constructors instead.
 func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endpoint string) *ServiceClient {
 	if customHTTPClient == nil {
 		customHTTPClient = newHTTPClient()
@@ -93,14 +65,14 @@ func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endp
 		HTTPClient: customHTTPClient,
 		Token:      tokenID,
 		Endpoint:   endpoint,
-		UserAgent:  userAgent,
+		UserAgent:  svc.UserAgent,
 	}
 }
 
 // newHTTPClient returns a reference to an initialized and configured HTTP client.
 func newHTTPClient() *http.Client {
 	return &http.Client{
-		Timeout:   defaultHTTPTimeout * time.Second,
+		Timeout:   svc.DefaultHTTPTimeout * time.Second,
 		Transport: newHTTPTransport(),
 	}
 }
@@ -110,13 +82,13 @@ func newHTTPTransport() *http.Transport {
 	return &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
 		DialContext: (&net.Dialer{
-			Timeout:   defaultDialTimeout * time.Second,
-			KeepAlive: defaultKeepaliveTimeout * time.Second,
+			Timeout:   svc.DefaultDialTimeout * time.Second,
+			KeepAlive: svc.DefaultKeepaliveTimeout * time.Second,
 		}).DialContext,
-		MaxIdleConns:          defaultMaxIdleConns,
-		IdleConnTimeout:       defaultIdleConnTimeout * time.Second,
-		TLSHandshakeTimeout:   defaultTLSHandshakeTimeout * time.Second,
-		ExpectContinueTimeout: defaultExpectContinueTimeout * time.Second,
+		MaxIdleConns:          svc.DefaultMaxIdleConns,
+		IdleConnTimeout:       svc.DefaultIdleConnTimeout * time.Second,
+		TLSHandshakeTimeout:   svc.DefaultTLSHandshakeTimeout * time.Second,
+		ExpectContinueTimeout: svc.DefaultExpectContinueTimeout * time.Second,
 	}
 }
 
