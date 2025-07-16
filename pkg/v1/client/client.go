@@ -18,7 +18,7 @@ type ServiceClient struct {
 
 // NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
 func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
-	if strings.HasSuffix(endpoint, "v2") {
+	if !strings.HasSuffix(endpoint, "v1") {
 		log.Fatalf("can't use client V2 with V1 endpoint")
 	}
 

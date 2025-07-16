@@ -17,7 +17,7 @@ type ServiceClient struct {
 
 // NewCRaaSClientV2 initializes a new CRaaS client for the V2 API.
 func NewCRaaSClientV2(token, endpoint string) (*ServiceClient, error) {
-	if strings.HasSuffix(endpoint, "v1") {
+	if !strings.HasSuffix(endpoint, "v2") {
 		return nil, svc.ErrEndpointVersionMismatch
 	}
 
@@ -52,12 +52,12 @@ func (s *ServiceClient) UserAgent() string {
 //
 // vDeprecated: Use just v2.NewCRaaSClientV2 client constructors instead.
 func NewCRaaSClientV2WithCustomHTTP(customHTTPClient *http.Client, token, endpoint string) (*ServiceClient, error) {
-	if customHTTPClient == nil {
-		customHTTPClient = newHTTPClient()
+	if !strings.HasSuffix(endpoint, "v2") {
+		return nil, svc.ErrEndpointVersionMismatch
 	}
 
-	if strings.HasSuffix(endpoint, "v1") {
-		return nil, svc.ErrEndpointVersionMismatch
+	if customHTTPClient == nil {
+		customHTTPClient = newHTTPClient()
 	}
 
 	return &ServiceClient{

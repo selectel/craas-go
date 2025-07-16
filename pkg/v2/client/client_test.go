@@ -26,7 +26,7 @@ func newFakeClient(token string, endpoint string) *ServiceClient {
 
 func TestNewCRaaSClientV2(t *testing.T) {
 	tokenID := "fakeID"
-	endpoint := "http://example.org"
+	endpoint := "http://example.org/v2"
 	expected := newFakeClient(tokenID, endpoint)
 
 	actual, err := NewCRaaSClientV2(tokenID, endpoint)

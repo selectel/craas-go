@@ -8,7 +8,7 @@ import (
 
 func TestNewCRaaSClientV1(t *testing.T) {
 	tokenID := "fakeID"
-	endpoint := "http://example.org"
+	endpoint := "http://example.org/v1"
 	expected := &ServiceClient{
 		requests: &svc.Request{
 			HTTPClient: svc.NewHTTPClient(),
