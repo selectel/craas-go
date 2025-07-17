@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	v1 "github.com/selectel/craas-go/pkg"
 	"github.com/selectel/craas-go/pkg/testutils"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/registry"
 )
 
@@ -27,13 +27,10 @@ func TestCreate(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := registry.Create(ctx, testClient, "test-registry")
 	if err != nil {
 		t.Fatal(err)
@@ -68,13 +65,10 @@ func TestGet(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := registry.Get(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
@@ -109,13 +103,10 @@ func TestGetWithUnknownStatus(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := registry.Get(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
@@ -150,13 +141,10 @@ func TestList(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := registry.List(ctx, testClient)
 	if err != nil {
 		t.Fatal(err)
@@ -234,13 +222,10 @@ func TestDelete(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	httpResponse, err := registry.Delete(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
