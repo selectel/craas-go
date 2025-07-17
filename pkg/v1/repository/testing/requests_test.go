@@ -26,8 +26,10 @@ func TestListRepositories(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := repository.ListRepositories(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
@@ -62,8 +64,10 @@ func TestGetRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := repository.GetRepository(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
 		t.Fatal(err)
@@ -97,8 +101,10 @@ func TestDeleteRepository(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	httpResponse, err := repository.DeleteRepository(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
 		t.Fatal(err)
@@ -130,8 +136,10 @@ func TestListImages(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := repository.ListImages(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
 		t.Fatal(err)
@@ -166,8 +174,10 @@ func TestListTags(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := repository.ListTags(ctx, testClient, testRegistryID, testRepositoryName)
 	if err != nil {
 		t.Fatal(err)
@@ -202,8 +212,10 @@ func TestListImageLayers(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := repository.ListImageLayers(ctx, testClient, testRegistryID, testRepositoryName, testImageDigest)
 	if err != nil {
 		t.Fatal(err)
@@ -237,8 +249,10 @@ func TestDeleteImageManifest(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	httpResponse, err := repository.DeleteImageManifest(ctx, testClient, testRegistryID, testRepositoryName, testImageDigest)
 	if err != nil {
 		t.Fatal(err)

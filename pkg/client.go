@@ -24,7 +24,12 @@ const (
 //
 // Deprecated: Use v1 or v2 client constructors instead.
 func NewCRaaSClientV1(token, endpoint string) *clientv1.ServiceClient {
-	return clientv1.NewCRaaSClientV1(token, endpoint)
+	client, err := clientv1.NewCRaaSClientV1(token, endpoint)
+	if err != nil {
+		panic(err)
+	}
+
+	return client
 }
 
 // NewCRaaSClientV1WithCustomHTTP initializes a new CRaaS client for the V1 API using custom HTTP client.
@@ -38,7 +43,7 @@ func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, tokenID, endp
 
 	client, err := clientv1.NewCRaaSClientV1WithCustomHTTP(customHTTPClient, tokenID, endpoint)
 	if err != nil {
-		panic("error")
+		panic(err)
 	}
 
 	return client

@@ -27,8 +27,10 @@ func TestCreate(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := registry.Create(ctx, testClient, "test-registry")
 	if err != nil {
 		t.Fatal(err)
@@ -63,8 +65,10 @@ func TestGet(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := registry.Get(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
@@ -99,8 +103,10 @@ func TestGetWithUnknownStatus(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := registry.Get(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)
@@ -135,8 +141,10 @@ func TestList(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := registry.List(ctx, testClient)
 	if err != nil {
 		t.Fatal(err)
@@ -170,8 +178,10 @@ func TestDelete(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	httpResponse, err := registry.Delete(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)

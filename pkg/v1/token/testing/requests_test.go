@@ -26,8 +26,10 @@ func TestCreateToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := token.Create(ctx, testClient, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -62,8 +64,10 @@ func TestGetToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := token.Get(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)
@@ -97,8 +101,10 @@ func TestRevokeToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	httpResponse, err := token.Revoke(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)
@@ -130,8 +136,10 @@ func TestRefreshToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := token.Refresh(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)

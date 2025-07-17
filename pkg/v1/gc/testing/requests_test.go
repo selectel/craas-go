@@ -25,8 +25,10 @@ func TestStartGarbageCollection(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	httpResponse, err := gc.StartGarbageCollection(ctx, testClient, testRegistryID, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -58,8 +60,10 @@ func TestGetGarbageSize(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
-
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
+	}
 	actual, httpResponse, err := gc.GetGarbageSize(ctx, testClient, testRegistryID)
 	if err != nil {
 		t.Fatal(err)

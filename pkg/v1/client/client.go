@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"io"
-	"log"
 	"net"
 	"net/http"
 	"strings"
@@ -17,9 +16,9 @@ type ServiceClient struct {
 }
 
 // NewCRaaSClientV1 initializes a new CRaaS client for the V1 API.
-func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
+func NewCRaaSClientV1(token, endpoint string) (*ServiceClient, error) {
 	if !strings.HasSuffix(endpoint, "v1") {
-		log.Fatalf("can't use client V2 with V1 endpoint")
+		return nil, svc.ErrEndpointVersionMismatch
 	}
 
 	return &ServiceClient{
@@ -29,7 +28,7 @@ func NewCRaaSClientV1(token, endpoint string) *ServiceClient {
 			Endpoint:   endpoint,
 			UserAgent:  svc.UserAgent,
 		},
-	}
+	}, nil
 }
 
 func (s *ServiceClient) DoRequest(ctx context.Context, method string, path string, body io.Reader) (*svc.ResponseResult, error) {

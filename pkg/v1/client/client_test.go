@@ -18,8 +18,10 @@ func TestNewCRaaSClientV1(t *testing.T) {
 		},
 	}
 
-	actual := NewCRaaSClientV1(tokenID, endpoint)
-
+	actual, err := NewCRaaSClientV1(tokenID, endpoint)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if expected.requests.Token != actual.Token() {
 		t.Errorf("expected Endpoint %s, but got %s", expected.requests.Endpoint, actual.Endpoint())
 	}
