@@ -56,7 +56,7 @@ func NewCRaaSClientV1WithCustomHTTP(customHTTPClient *http.Client, token, endpoi
 		customHTTPClient = newHTTPClient()
 	}
 
-	if strings.HasSuffix(endpoint, "v2") {
+	if !strings.HasSuffix(endpoint, "v1") {
 		return nil, svc.ErrEndpointVersionMismatch
 	}
 
