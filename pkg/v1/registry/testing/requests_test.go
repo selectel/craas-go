@@ -179,11 +179,9 @@ func TestListEmpty(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	actual, httpResponse, err := registry.List(ctx, testClient)
