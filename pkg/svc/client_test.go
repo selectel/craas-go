@@ -1,4 +1,4 @@
-package v1
+package svc
 
 import (
 	"bytes"
@@ -8,61 +8,21 @@ import (
 	"io"
 	"net/http"
 	"testing"
-	"time"
 
 	"github.com/selectel/craas-go/pkg/testutils"
 )
 
-func TestNewCRaaSClientV1(t *testing.T) {
-	tokenID := "fakeID"
-	endpoint := "http://example.org"
-	expected := &ServiceClient{
-		Token:     tokenID,
-		Endpoint:  endpoint,
-		UserAgent: userAgent,
-	}
+const (
+	userAgent = "agent"
+	token     = "token"
+)
 
-	actual := NewCRaaSClientV1(tokenID, endpoint)
-
-	if expected.Token != actual.Token {
-		t.Errorf("expected Endpoint %s, but got %s", expected.Endpoint, actual.Endpoint)
-	}
-	if expected.Endpoint != actual.Endpoint {
-		t.Errorf("expected Token %s, but got %s", expected.Token, actual.Token)
-	}
-	if expected.UserAgent != actual.UserAgent {
-		t.Errorf("expected UserAgent %s, but got %s", expected.UserAgent, actual.UserAgent)
-	}
-	if actual.HTTPClient == nil {
-		t.Errorf("expected initialized HTTPClient but it's nil")
-	}
-}
-
-func TestNewCRaaSClientV1WithCustomHTTP(t *testing.T) {
-	tokenID := testutils.TokenID
-	endpoint := "http://example.org"
-	expected := &ServiceClient{
-		Token:     tokenID,
-		Endpoint:  endpoint,
-		UserAgent: userAgent,
-	}
-	customHTTPClient := &http.Client{
-		Timeout: 10 * time.Second,
-	}
-
-	actual := NewCRaaSClientV1WithCustomHTTP(customHTTPClient, tokenID, endpoint)
-
-	if expected.Token != actual.Token {
-		t.Errorf("expected Endpoint %s, but got %s", expected.Endpoint, actual.Endpoint)
-	}
-	if expected.Endpoint != actual.Endpoint {
-		t.Errorf("expected Token %s, but got %s", expected.Token, actual.Token)
-	}
-	if expected.UserAgent != actual.UserAgent {
-		t.Errorf("expected UserAgent %s, but got %s", expected.UserAgent, actual.UserAgent)
-	}
-	if actual.HTTPClient == nil {
-		t.Errorf("expected initialized HTTPClient but it's nil")
+func newFakeClient(endpoint string) *Request {
+	return &Request{
+		Token:      token,
+		Endpoint:   endpoint,
+		UserAgent:  userAgent,
+		HTTPClient: &http.Client{},
 	}
 }
 
@@ -79,12 +39,7 @@ func TestDoGetRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -117,12 +72,7 @@ func TestDoPostRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	requestBody, err := json.Marshal(&struct {
 		ID string `json:"id"`
@@ -160,12 +110,7 @@ func TestDoErrNotFoundRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -202,12 +147,7 @@ func TestDoErrGenericRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -240,12 +180,7 @@ func TestDoErrNoContentRequest(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)
@@ -278,12 +213,7 @@ func TestDoErrRequestUnmarshalError(t *testing.T) {
 	})
 
 	endpoint := testEnv.Server.URL + "/"
-	client := &ServiceClient{
-		HTTPClient: &http.Client{},
-		Endpoint:   endpoint,
-		Token:      "token",
-		UserAgent:  "agent",
-	}
+	client := newFakeClient(endpoint)
 
 	ctx := context.Background()
 	response, err := client.DoRequest(ctx, http.MethodGet, endpoint, nil)

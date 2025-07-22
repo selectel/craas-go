@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	v1 "github.com/selectel/craas-go/pkg"
 	"github.com/selectel/craas-go/pkg/testutils"
+	"github.com/selectel/craas-go/pkg/v1/client"
 	"github.com/selectel/craas-go/pkg/v1/token"
 )
 
@@ -26,13 +26,10 @@ func TestCreateToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := token.Create(ctx, testClient, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -67,13 +64,10 @@ func TestGetToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := token.Get(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)
@@ -107,13 +101,10 @@ func TestRevokeToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	httpResponse, err := token.Revoke(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)
@@ -145,13 +136,10 @@ func TestRefreshToken(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	testClient := &v1.ServiceClient{
-		HTTPClient: &http.Client{},
-		Token:      testutils.TokenID,
-		Endpoint:   testEnv.Server.URL + "/api/v1",
-		UserAgent:  testutils.UserAgent,
+	testClient, err := client.NewCRaaSClientV1(testutils.TokenID, testEnv.Server.URL+"/api/v1")
+	if err != nil {
+		t.Fatal(err)
 	}
-
 	actual, httpResponse, err := token.Refresh(ctx, testClient, testTokenID)
 	if err != nil {
 		t.Fatal(err)
