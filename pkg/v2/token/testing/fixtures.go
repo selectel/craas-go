@@ -119,7 +119,7 @@ var expectedCreateTokenResponse = &tokenV2.TokenV2{
 	Status:     "active",
 	ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 	Name:       "my-token",
-	CreatedAt:  createdAt,
+	CreatedAt:  &createdAt,
 	Expiration: Exp,
 	Scope:      Scope,
 }
@@ -127,10 +127,10 @@ var expectedCreateTokenResponse = &tokenV2.TokenV2{
 var expectedPatchTokenResponse = &tokenV2.TokenV2{
 	ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 	Name:       "token",
-	CreatedAt:  createdAt,
+	CreatedAt:  &createdAt,
 	Expiration: Exp,
 	Scope:      Scope,
-	LastUsedAt: lastUsedAt,
+	LastUsedAt: &lastUsedAt,
 	Status:     "active",
 }
 
@@ -139,10 +139,10 @@ var expectedListTokenResponse = &tokenV2.TokensV2{
 	Tokens: []tokenV2.TokenV2{
 		{
 			Status:     "active",
-			LastUsedAt: lastUsedAt,
+			LastUsedAt: &lastUsedAt,
 			ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 			Name:       "my-token",
-			CreatedAt:  createdAt,
+			CreatedAt:  &createdAt,
 			Expiration: struct {
 				IsSet     bool      `json:"isSet"`
 				ExpiresAt time.Time `json:"expiresAt,omitempty"`
@@ -165,10 +165,10 @@ var expectedListTokenResponse = &tokenV2.TokensV2{
 		},
 		{
 			Status:     "active",
-			LastUsedAt: lastUsedAt,
+			LastUsedAt: &lastUsedAt,
 			ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 			Name:       "my-token",
-			CreatedAt:  createdAt,
+			CreatedAt:  &createdAt,
 			Expiration: struct {
 				IsSet     bool      `json:"isSet"`
 				ExpiresAt time.Time `json:"expiresAt,omitempty"`

@@ -3,14 +3,14 @@ package tokenv2
 import "time"
 
 type TokenV2 struct {
-	ID         string    `json:"id,omitempty"`
-	Name       string    `json:"name,omitempty"`
-	CreatedAt  time.Time `json:"createdAt,omitempty"`
-	Expiration Exp       `json:"expiration"`
-	Scope      Scope     `json:"scope"`
-	Status     string    `json:"status,omitempty"`
-	Token      string    `json:"token,omitempty"`
-	LastUsedAt time.Time `json:"lastUsedAt,omitempty"`
+	ID         string     `json:"id,omitempty"`
+	Name       string     `json:"name,omitempty"`
+	CreatedAt  *time.Time `json:"createdAt,omitempty"`
+	Expiration Exp        `json:"expiration"`
+	Scope      Scope      `json:"scope"`
+	Status     string     `json:"status,omitempty"`
+	Token      string     `json:"token,omitempty"`
+	LastUsedAt *time.Time `json:"lastUsedAt,omitempty"`
 }
 
 type Scope struct {

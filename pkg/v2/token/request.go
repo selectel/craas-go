@@ -81,7 +81,6 @@ func GetByID(ctx context.Context, client *client.ServiceClient, tokenID string) 
 	if err != nil {
 		return nil, responseResult, err
 	}
-	token.Token = tokenID
 
 	return &token, responseResult, nil
 }
@@ -163,12 +162,13 @@ func Delete(ctx context.Context, client *client.ServiceClient, tokenID string) (
 }
 
 // Patch patch a token by its ID.
-func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, name string, sc Scope) (*TokenV2, *svc.ResponseResult, error) {
+func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, name string, sc Scope, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
 	var token TokenV2
 	if name != "" {
 		token.Name = name
 	}
 	token.Scope = sc
+	token.Expiration = exp
 	reqBody, err := json.Marshal(token)
 	if err != nil {
 		return nil, nil, err
@@ -187,6 +187,9 @@ func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, na
 	err = responseResult.ExtractResult(&tokenResult)
 	if err != nil {
 		return nil, responseResult, err
+	}
+	if responseResult.Err != nil {
+		return nil, responseResult, responseResult.Err
 	}
 
 	return &tokenResult, responseResult, nil
