@@ -63,6 +63,11 @@ func List(ctx context.Context, client *client.ServiceClient) ([]*Registry, *svc.
 	// Extract registries from the response body.
 	registries := make([]*Registry, 0)
 
+	// If the status code is 204 No Content, return an empty list.
+	if responseResult.StatusCode == http.StatusNoContent {
+		return registries, responseResult, nil
+	}
+
 	err = responseResult.ExtractResult(&registries)
 	if err != nil {
 		return nil, responseResult, err

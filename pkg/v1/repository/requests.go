@@ -36,6 +36,12 @@ func ListRepositories(ctx context.Context, client *client.ServiceClient, registr
 
 	// Extract repositories from the response body.
 	repositories := make([]*Repository, 0)
+
+	// If the status code is 204 No Content, return an empty list.
+	if responseResult.StatusCode == http.StatusNoContent {
+		return repositories, responseResult, nil
+	}
+
 	err = responseResult.ExtractResult(&repositories)
 	if err != nil {
 		return nil, responseResult, err
