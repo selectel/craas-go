@@ -6,7 +6,7 @@ type TokenV2 struct {
 	ID         string     `json:"id,omitempty"`
 	Name       string     `json:"name,omitempty"`
 	CreatedAt  *time.Time `json:"createdAt,omitempty"`
-	Expiration Exp        `json:"expiration"`
+	Expiration Expiration `json:"expiration"`
 	Scope      Scope      `json:"scope"`
 	Status     string     `json:"status,omitempty"`
 	Token      string     `json:"token,omitempty"`
@@ -19,7 +19,7 @@ type Scope struct {
 	RegistryIDs   []string `json:"registryIds,omitempty"`
 }
 
-type Exp struct {
+type Expiration struct {
 	IsSet     bool      `json:"isSet"`
 	ExpiresAt time.Time `json:"expiresAt,omitempty"`
 }

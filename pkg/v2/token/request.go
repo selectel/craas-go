@@ -100,7 +100,7 @@ func Revoke(ctx context.Context, client *client.ServiceClient, tokenID string) (
 }
 
 // Refresh refresh a token by its ID.
-func Refresh(ctx context.Context, client *client.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
+func Refresh(ctx context.Context, client *client.ServiceClient, tokenID string, exp Expiration) (*TokenV2, *svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID, v2.ResourceURLRefresh}, "/")
 	reqBody, err := json.Marshal(exp)
 	if err != nil {
@@ -124,7 +124,7 @@ func Refresh(ctx context.Context, client *client.ServiceClient, tokenID string, 
 }
 
 // Regenerate regenerate a token by its ID.
-func Regenerate(ctx context.Context, client *client.ServiceClient, tokenID string, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
+func Regenerate(ctx context.Context, client *client.ServiceClient, tokenID string, exp Expiration) (*TokenV2, *svc.ResponseResult, error) {
 	url := strings.Join([]string{client.Endpoint(), v2.ResourceURLToken, tokenID, v2.ResourceURLRegenerate}, "/")
 	reqBody, err := json.Marshal(exp)
 	if err != nil {
@@ -162,7 +162,7 @@ func Delete(ctx context.Context, client *client.ServiceClient, tokenID string) (
 }
 
 // Patch patch a token by its ID.
-func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, name string, sc Scope, exp Exp) (*TokenV2, *svc.ResponseResult, error) {
+func Patch(ctx context.Context, client *client.ServiceClient, tokenID string, name string, sc Scope, exp Expiration) (*TokenV2, *svc.ResponseResult, error) {
 	var token TokenV2
 	if name != "" {
 		token.Name = name

@@ -100,7 +100,7 @@ var createdAt, _ = time.Parse("2006-01-02T15:04:05Z", "2023-02-13T15:00:00Z")
 var expiresAt, _ = time.Parse("2006-01-02T15:04:05Z", "2030-01-01T00:00:00Z")
 var lastUsedAt, _ = time.Parse("2006-01-02T15:04:05Z", "2023-02-14T15:25:10Z")
 
-var Exp = tokenV2.Exp{
+var Exp = tokenV2.Expiration{
 	IsSet:     true,
 	ExpiresAt: expiresAt,
 }
