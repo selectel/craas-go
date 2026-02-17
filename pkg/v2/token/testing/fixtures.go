@@ -130,7 +130,7 @@ var expectedPatchTokenResponse = &tokenV2.TokenV2{
 	CreatedAt:  &createdAt,
 	Expiration: Exp,
 	Scope:      Scope,
-	LastUsedAt: lastUsedAt,
+	LastUsedAt: &lastUsedAt,
 	Status:     tokenV2.StatusActive,
 }
 
@@ -139,7 +139,7 @@ var expectedListTokenResponse = &tokenV2.TokensV2{
 	Tokens: []tokenV2.TokenV2{
 		{
 			Status:     tokenV2.StatusActive,
-			LastUsedAt: lastUsedAt,
+			LastUsedAt: &lastUsedAt,
 			ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 			Name:       "my-token",
 			CreatedAt:  &createdAt,
@@ -165,7 +165,7 @@ var expectedListTokenResponse = &tokenV2.TokensV2{
 		},
 		{
 			Status:     tokenV2.StatusActive,
-			LastUsedAt: lastUsedAt,
+			LastUsedAt: &lastUsedAt,
 			ID:         "c29e3f63-0711-4772-a415-ad79973bdaef",
 			Name:       "my-token",
 			CreatedAt:  &createdAt,
