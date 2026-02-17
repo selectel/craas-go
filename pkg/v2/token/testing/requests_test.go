@@ -143,7 +143,10 @@ func TestPatchToken(t *testing.T) {
 		RegistryIDs:   []string{"888af692-c646-4b76-a234-81ca9b5bcafe", "6303699d-c2cd-40b1-8428-9dcd6cc3d00d"},
 		AllRegistries: false,
 	}
-	actual, response, err := tokenV2.Patch(ctx, testClient, testTokenID, "token", scope)
+	exp := tokenV2.Expiration{
+		ExpiresAt: expiresAt,
+	}
+	actual, response, err := tokenV2.Patch(ctx, testClient, testTokenID, "token", scope, exp)
 	if err != nil {
 		t.Fatal(err)
 	}
