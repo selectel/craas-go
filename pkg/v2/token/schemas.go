@@ -2,6 +2,12 @@ package tokenv2
 
 import "time"
 
+const (
+	StatusActive  = "active"
+	StatusExpired = "expired"
+	StatusDeleted = "deleted"
+)
+
 type TokenV2 struct {
 	ID         string     `json:"id,omitempty"`
 	Name       string     `json:"name,omitempty"`
